@@ -38,7 +38,7 @@ export function HomePage({
             Hoje
           </h1>
           <p className="mt-4 text-base leading-7 text-secondary">
-            Como esta a pressao agora?
+            Olá Bruna. Vamos ver como está a sua pressão?
           </p>
         </header>
 
