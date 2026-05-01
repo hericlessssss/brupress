@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Etapa 2 - Dominio e regras concluida**.
+Etapa atual: **Etapa 3 - Supabase concluida**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -26,6 +26,13 @@ Etapa 2 concluiu as regras puras de dominio:
 - Sugestao automatica de periodo.
 - Normalizacao de sintomas.
 
+Etapa 3 concluiu a base de persistencia:
+
+- Migration SQL para `blood_pressure_records`.
+- Client Supabase em `src/lib/supabase.ts`.
+- `pressureService` isolado da UI e testado com client mockado.
+- `.env.example` atualizado com URL, publishable key e anon key.
+
 ## Plano de Execucao
 
 1. Criar e manter este `CODEX.md` antes de implementar funcionalidades.
@@ -43,6 +50,8 @@ Etapa 2 concluiu as regras puras de dominio:
 - A documentacao viva sera atualizada a cada decisao relevante ou conclusao de etapa.
 - As regras de dominio ficam em funcoes puras dentro de `src/features/pressure/utils`, sem acoplamento com UI ou Supabase.
 - A validacao usa Zod para compartilhar a mesma regra entre formulario futuro e testes.
+- O `pressureService` recebe um client Supabase por injecao, permitindo testes sem rede e mantendo componentes desacoplados do banco.
+- A chave preferencial no frontend passa a ser `VITE_SUPABASE_PUBLISHABLE_KEY`; `VITE_SUPABASE_ANON_KEY` permanece como fallback por compatibilidade.
 
 ## Estrutura do Projeto
 
@@ -57,6 +66,7 @@ src/
     pressure/
       components/
       services/
+        pressureService.ts
       tests/
       types/
         pressure.ts
@@ -66,6 +76,7 @@ src/
         normalizeSymptoms.ts
         validatePressure.ts
   lib/
+    supabase.ts
   styles/
     globals.css
 ```
@@ -87,6 +98,10 @@ create table blood_pressure_records (
   created_at timestamptz not null default now()
 );
 ```
+
+Arquivo versionado: `supabase/migrations/20260501134000_create_blood_pressure_records.sql`.
+
+A migration tambem cria indices por `measured_at` e por `period, measured_at`, habilita RLS e adiciona policies anonimas de leitura e insercao para o fluxo sem login.
 
 ## Regras de Negocio
 
@@ -128,6 +143,8 @@ Trade-offs documentados:
 - Qualquer regra de escrita precisa ser protegida no Supabase, nao no frontend.
 - Sem autenticacao, nao ha separacao real por usuario.
 - A chave anon nao deve ter permissao ampla alem do necessario.
+- As chaves reais foram colocadas apenas em `.env.local`, que esta ignorado pelo Git.
+- A migration atual permite leitura e insercao anonimas. Isso atende ao escopo sem login, mas nao impede que alguem com a chave publica tente escrever dados se conhecer a estrutura.
 
 Melhoria futura possivel: substituir escrita direta pelo frontend por uma Supabase Edge Function com token privado e validacoes server-side.
 
@@ -169,16 +186,19 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Criado teste inicial de renderizacao do shell Brupress.
 - 2026-05-01: Criadas regras de dominio como funcoes puras para facilitar testes e evitar acoplamento prematuro com UI ou Supabase.
 - 2026-05-01: Decidido usar Zod para validacao dos dados de registro de pressao.
+- 2026-05-01: Criada migration Supabase com RLS e policies anonimas simples para manter o escopo sem login.
+- 2026-05-01: Criado `pressureService` com injecao de client para facilitar testes e evitar Supabase direto nos componentes.
+- 2026-05-01: Adicionado suporte a `VITE_SUPABASE_PUBLISHABLE_KEY`, mantendo `VITE_SUPABASE_ANON_KEY` como fallback.
 
 ## Pendencias
 
-- Criar migration SQL na Etapa 3.
 - Implementar UI real das telas nas Etapas 4 a 7.
+- Aplicar a migration no projeto Supabase quando houver decisao operacional de executar o SQL remoto.
 
 ## Proximos Passos
 
-- Iniciar Etapa 3 com SQL da tabela, client Supabase e `pressureService`.
-- Criar isolamento da camada Supabase para que componentes nao acessem o client diretamente.
+- Iniciar Etapa 4 com layout mobile-first e componentes base.
+- Conectar a UI ao `pressureService` somente nas etapas de tela inicial, formulario e historico.
 
 ## Problemas Encontrados e Solucoes Aplicadas
 
@@ -201,3 +221,11 @@ Etapa 1 concluida em 2026-05-01. A proxima etapa so deve comecar mantendo esta b
 - `npm run build`: passou.
 
 Etapa 2 concluida em 2026-05-01. A proxima etapa e Supabase, mantendo a UI ainda desacoplada do banco.
+
+## Validacao da Etapa 3
+
+- `npm run test`: passou com 6 arquivos e 24 testes.
+- `npm run typecheck`: passou.
+- `npm run build`: passou.
+
+Etapa 3 concluida em 2026-05-01. A migration foi criada, mas nao foi aplicada remotamente nesta etapa porque o projeto ainda nao recebeu uma rotina operacional de deploy do banco.

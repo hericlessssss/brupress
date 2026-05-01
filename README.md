@@ -13,8 +13,11 @@ Crie um `.env` local com base em `.env.example`:
 
 ```env
 VITE_SUPABASE_URL=
+VITE_SUPABASE_PUBLISHABLE_KEY=
 VITE_SUPABASE_ANON_KEY=
 ```
+
+Use `VITE_SUPABASE_PUBLISHABLE_KEY` quando disponivel. `VITE_SUPABASE_ANON_KEY` fica como compatibilidade com a nomenclatura anterior do Supabase.
 
 ## Scripts
 
