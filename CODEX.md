@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Etapa 5 - Tela inicial concluida**.
+Etapa atual: **Etapa 6 - Tela de registro concluida**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -48,6 +48,15 @@ Etapa 5 concluiu a tela inicial:
 - Resumo simples dos ultimos 7 dias.
 - Botoes principais para registrar pressao e ver historico.
 
+Etapa 6 concluiu a tela de registro:
+
+- Formulario mobile-first com periodo, sistolica, diastolica, batimentos, sintomas e observacao.
+- Validacao usando o schema Zod existente.
+- Normalizacao de observacao vazia para `null`.
+- Feedback de sucesso com valor registrado e mensagem por classificacao.
+- Feedback de erro quando o Supabase nao salva.
+- Navegacao simples entre home e registro sem adicionar roteador.
+
 ## Plano de Execucao
 
 1. Criar e manter este `CODEX.md` antes de implementar funcionalidades.
@@ -72,6 +81,9 @@ Etapa 5 concluiu a tela inicial:
 - `SymptomChips` usa `normalizeSymptoms` para manter a regra de "Nenhum sintoma" consistente tambem na interacao visual.
 - A home recebe registros por props e ainda nao busca Supabase diretamente. Isso evita acoplamento prematuro enquanto a migration remota nao foi aplicada.
 - O `App` renderiza a home em estado vazio, sem dados ficticios de pressao.
+- O formulario recebe `onSave` por prop para manter testes sem rede.
+- O `App` carrega o client Supabase apenas no momento do salvamento, evitando erro de ambiente nos testes.
+- Existe deep-link simples `?view=register` para abrir a tela de registro sem roteador, usado tambem na validacao visual.
 
 ## Estrutura do Projeto
 
@@ -92,6 +104,7 @@ src/
     pressure/
       components/
         HomePage.tsx
+        PressureForm.tsx
         PressureSummary.tsx
         TodayStatus.tsx
       services/
@@ -105,6 +118,7 @@ src/
         normalizeSymptoms.ts
         symptomLabels.ts
         pressureStats.ts
+        classificationMessages.ts
         validatePressure.ts
   lib/
     supabase.ts
@@ -224,18 +238,21 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Ajustado layout mobile para evitar overflow horizontal em badges e inputs.
 - 2026-05-01: Criada tela inicial como componente puro que recebe registros por props.
 - 2026-05-01: Decidido manter o `App` em estado vazio ate implementar carregamento real do Supabase, para nao exibir dados ficticios.
+- 2026-05-01: Criada tela de registro com `react-hook-form` e validacao manual via Zod, sem adicionar `@hookform/resolvers`.
+- 2026-05-01: Decidido nao simular sucesso local quando o Supabase falha; o app mostra erro claro e so adiciona registro na home quando o Supabase retorna sucesso.
+- 2026-05-01: Ajustado `AppShell` para largura mobile mais conservadora e padding direito maior, evitando corte em capturas de 390px.
 
 ## Pendencias
 
-- Implementar UI real das telas nas Etapas 6 e 7.
+- Implementar UI real da tela de historico na Etapa 7.
 - Aplicar a migration no projeto Supabase quando houver decisao operacional de executar o SQL remoto.
 - Conectar a home ao `pressureService` quando a leitura remota for ativada.
+- Testar salvamento real no Supabase depois que a migration remota for aplicada.
 
 ## Proximos Passos
 
-- Iniciar Etapa 6 com tela de registro.
-- Criar formulario com validacao, sintomas e feedback de sucesso/erro.
-- Conectar fluxo de salvar ao `pressureService`, mantendo testes com mock.
+- Iniciar Etapa 7 com historico agrupado por dia.
+- Carregar registros reais do `pressureService` quando o fluxo remoto estiver pronto.
 
 ## Problemas Encontrados e Solucoes Aplicadas
 
@@ -284,3 +301,12 @@ Etapa 4 concluida em 2026-05-01. A tela atual ainda e uma composicao temporaria 
 - UI validada em captura mobile headless de 430px usando Chrome local em `http://127.0.0.1:5174`.
 
 Etapa 5 concluida em 2026-05-01. A home esta pronta como tela inicial visual e funcional por props; a persistencia real entra no fluxo de registro e carregamento posterior.
+
+## Validacao da Etapa 6
+
+- `npm run test`: passou com 14 arquivos e 44 testes.
+- `npm run typecheck`: passou.
+- `npm run build`: passou.
+- UI de registro validada em captura mobile headless de 390px usando Chrome local em `http://127.0.0.1:5174/?view=register`.
+
+Etapa 6 concluida em 2026-05-01. O formulario esta pronto e conectado ao `pressureService`; o salvamento real depende da tabela existir no Supabase remoto.

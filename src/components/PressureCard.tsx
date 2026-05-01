@@ -1,14 +1,8 @@
 import { StatusBadge } from './StatusBadge';
 import type {
   BloodPressureRecordWithClassification,
-  PressureClassification,
 } from '../features/pressure/types/pressure';
-
-const classificationLabels: Record<PressureClassification, string> = {
-  normal: 'Normal',
-  attention: 'Atencao',
-  severe: 'Muito alto',
-};
+import { classificationLabels } from '../features/pressure/utils/classificationMessages';
 
 interface PressureCardProps {
   record: BloodPressureRecordWithClassification;

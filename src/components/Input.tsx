@@ -29,7 +29,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             }
             aria-invalid={Boolean(error)}
             className={classNames(
-              'min-h-14 w-full rounded-md border bg-surface px-4 py-3 text-2xl font-semibold text-primary outline-none transition-colors placeholder:text-secondary/70 focus:border-accent focus:ring-2 focus:ring-accent/30',
+              'min-h-14 w-full min-w-0 rounded-md border bg-surface px-4 py-3 text-2xl font-semibold text-primary outline-none transition-colors placeholder:text-secondary/70 focus:border-accent focus:ring-2 focus:ring-accent/30',
               error ? 'border-accent' : 'border-line',
               unit && 'pr-24',
               className,
