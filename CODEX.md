@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Etapa 4 - UI base concluida**.
+Etapa atual: **Etapa 5 - Tela inicial concluida**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -40,6 +40,14 @@ Etapa 4 concluiu a base visual:
 - Labels dos sintomas em `symptomLabels`.
 - Tela temporaria do `App` usando os componentes para validar linguagem visual.
 
+Etapa 5 concluiu a tela inicial:
+
+- Home real com nome Brupress, saudacao do dia e status manha/noite.
+- Estado vazio para ausencia de registros.
+- Ultimo registro quando houver dados.
+- Resumo simples dos ultimos 7 dias.
+- Botoes principais para registrar pressao e ver historico.
+
 ## Plano de Execucao
 
 1. Criar e manter este `CODEX.md` antes de implementar funcionalidades.
@@ -62,6 +70,8 @@ Etapa 4 concluiu a base visual:
 - Os componentes base sao controlados por props simples e nao acessam Supabase diretamente.
 - A UI base prioriza composicao mobile de uma coluna; grades em duas colunas ficam reservadas para telas maiores.
 - `SymptomChips` usa `normalizeSymptoms` para manter a regra de "Nenhum sintoma" consistente tambem na interacao visual.
+- A home recebe registros por props e ainda nao busca Supabase diretamente. Isso evita acoplamento prematuro enquanto a migration remota nao foi aplicada.
+- O `App` renderiza a home em estado vazio, sem dados ficticios de pressao.
 
 ## Estrutura do Projeto
 
@@ -81,6 +91,9 @@ src/
   features/
     pressure/
       components/
+        HomePage.tsx
+        PressureSummary.tsx
+        TodayStatus.tsx
       services/
         pressureService.ts
       tests/
@@ -91,6 +104,7 @@ src/
         getSuggestedPeriod.ts
         normalizeSymptoms.ts
         symptomLabels.ts
+        pressureStats.ts
         validatePressure.ts
   lib/
     supabase.ts
@@ -208,17 +222,20 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Adicionado suporte a `VITE_SUPABASE_PUBLISHABLE_KEY`, mantendo `VITE_SUPABASE_ANON_KEY` como fallback.
 - 2026-05-01: Criada UI base com componentes pequenos, sem biblioteca visual adicional.
 - 2026-05-01: Ajustado layout mobile para evitar overflow horizontal em badges e inputs.
+- 2026-05-01: Criada tela inicial como componente puro que recebe registros por props.
+- 2026-05-01: Decidido manter o `App` em estado vazio ate implementar carregamento real do Supabase, para nao exibir dados ficticios.
 
 ## Pendencias
 
-- Implementar UI real das telas nas Etapas 5 a 7.
+- Implementar UI real das telas nas Etapas 6 e 7.
 - Aplicar a migration no projeto Supabase quando houver decisao operacional de executar o SQL remoto.
+- Conectar a home ao `pressureService` quando a leitura remota for ativada.
 
 ## Proximos Passos
 
-- Iniciar Etapa 5 com tela inicial real.
-- Substituir dados temporarios do `App` por dados vindos da camada de servico quando a home for implementada.
-- Conectar a UI ao `pressureService` somente nas etapas de tela inicial, formulario e historico.
+- Iniciar Etapa 6 com tela de registro.
+- Criar formulario com validacao, sintomas e feedback de sucesso/erro.
+- Conectar fluxo de salvar ao `pressureService`, mantendo testes com mock.
 
 ## Problemas Encontrados e Solucoes Aplicadas
 
@@ -258,3 +275,12 @@ Etapa 3 concluida em 2026-05-01. A migration foi criada, mas nao foi aplicada re
 - UI validada em captura mobile headless de 430px usando Chrome local em `http://127.0.0.1:5174`.
 
 Etapa 4 concluida em 2026-05-01. A tela atual ainda e uma composicao temporaria para validar os componentes base; a tela inicial real sera criada na Etapa 5.
+
+## Validacao da Etapa 5
+
+- `npm run test`: passou com 13 arquivos e 38 testes.
+- `npm run typecheck`: passou.
+- `npm run build`: passou.
+- UI validada em captura mobile headless de 430px usando Chrome local em `http://127.0.0.1:5174`.
+
+Etapa 5 concluida em 2026-05-01. A home esta pronta como tela inicial visual e funcional por props; a persistencia real entra no fluxo de registro e carregamento posterior.

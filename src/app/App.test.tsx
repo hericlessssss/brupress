@@ -7,6 +7,8 @@ describe('App', () => {
     render(<App />);
 
     expect(screen.getByText('Brupress')).toBeInTheDocument();
-    expect(screen.getByText(/Cuidado diario/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Registrar pressao' }),
+    ).toBeInTheDocument();
   });
 });
