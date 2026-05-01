@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Etapa 1 - Setup concluida**.
+Etapa atual: **Etapa 2 - Dominio e regras concluida**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -17,6 +17,14 @@ O foco inicial e preparar a base tecnica do projeto:
 - `.env.example` com variaveis do Supabase.
 - Design tokens CSS inspirados na referencia visual.
 - Teste inicial passando.
+
+Etapa 2 concluiu as regras puras de dominio:
+
+- Tipos de pressao, periodo, sintomas e registro.
+- Classificacao visual da pressao.
+- Validacao dos campos obrigatorios e intervalos.
+- Sugestao automatica de periodo.
+- Normalizacao de sintomas.
 
 ## Plano de Execucao
 
@@ -33,6 +41,8 @@ O foco inicial e preparar a base tecnica do projeto:
 - A classificacao da pressao sera calculada no frontend, evitando duplicacao no banco neste momento.
 - A interface sera mobile-first, com largura maxima aproximada de 430px.
 - A documentacao viva sera atualizada a cada decisao relevante ou conclusao de etapa.
+- As regras de dominio ficam em funcoes puras dentro de `src/features/pressure/utils`, sem acoplamento com UI ou Supabase.
+- A validacao usa Zod para compartilhar a mesma regra entre formulario futuro e testes.
 
 ## Estrutura do Projeto
 
@@ -49,7 +59,12 @@ src/
       services/
       tests/
       types/
+        pressure.ts
       utils/
+        classifyPressure.ts
+        getSuggestedPeriod.ts
+        normalizeSymptoms.ts
+        validatePressure.ts
   lib/
   styles/
     globals.css
@@ -152,18 +167,18 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Configurado React 19, Vite 6, TypeScript, Tailwind CSS 3, Vitest e React Testing Library.
 - 2026-05-01: Definidos tokens visuais iniciais em `src/styles/globals.css` seguindo fundo off-white, contraste forte e vermelho pontual.
 - 2026-05-01: Criado teste inicial de renderizacao do shell Brupress.
+- 2026-05-01: Criadas regras de dominio como funcoes puras para facilitar testes e evitar acoplamento prematuro com UI ou Supabase.
+- 2026-05-01: Decidido usar Zod para validacao dos dados de registro de pressao.
 
 ## Pendencias
 
-- Iniciar Etapa 2 com tipos e regras de dominio testadas.
 - Criar migration SQL na Etapa 3.
 - Implementar UI real das telas nas Etapas 4 a 7.
 
 ## Proximos Passos
 
-- Iniciar Etapa 2 com tipos e regras de dominio testadas.
-- Criar os tipos `PressurePeriod`, `PressureClassification`, `Symptom` e `BloodPressureRecord`.
-- Implementar e testar classificacao, validacao, periodo sugerido e normalizacao de sintomas.
+- Iniciar Etapa 3 com SQL da tabela, client Supabase e `pressureService`.
+- Criar isolamento da camada Supabase para que componentes nao acessem o client diretamente.
 
 ## Problemas Encontrados e Solucoes Aplicadas
 
@@ -178,3 +193,11 @@ Uma etapa so pode ser considerada concluida quando:
 - `npm run build`: passou.
 
 Etapa 1 concluida em 2026-05-01. A proxima etapa so deve comecar mantendo esta base verde.
+
+## Validacao da Etapa 2
+
+- `npm run test`: passou com 5 arquivos e 19 testes.
+- `npm run typecheck`: passou.
+- `npm run build`: passou.
+
+Etapa 2 concluida em 2026-05-01. A proxima etapa e Supabase, mantendo a UI ainda desacoplada do banco.
