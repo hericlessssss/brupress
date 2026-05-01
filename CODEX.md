@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Etapa 3 - Supabase concluida**.
+Etapa atual: **Etapa 4 - UI base concluida**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -33,6 +33,13 @@ Etapa 3 concluiu a base de persistencia:
 - `pressureService` isolado da UI e testado com client mockado.
 - `.env.example` atualizado com URL, publishable key e anon key.
 
+Etapa 4 concluiu a base visual:
+
+- `AppShell` mobile-first com largura controlada.
+- Componentes base: `Button`, `Input`, `StatusBadge`, `PressureCard` e `SymptomChips`.
+- Labels dos sintomas em `symptomLabels`.
+- Tela temporaria do `App` usando os componentes para validar linguagem visual.
+
 ## Plano de Execucao
 
 1. Criar e manter este `CODEX.md` antes de implementar funcionalidades.
@@ -52,6 +59,9 @@ Etapa 3 concluiu a base de persistencia:
 - A validacao usa Zod para compartilhar a mesma regra entre formulario futuro e testes.
 - O `pressureService` recebe um client Supabase por injecao, permitindo testes sem rede e mantendo componentes desacoplados do banco.
 - A chave preferencial no frontend passa a ser `VITE_SUPABASE_PUBLISHABLE_KEY`; `VITE_SUPABASE_ANON_KEY` permanece como fallback por compatibilidade.
+- Os componentes base sao controlados por props simples e nao acessam Supabase diretamente.
+- A UI base prioriza composicao mobile de uma coluna; grades em duas colunas ficam reservadas para telas maiores.
+- `SymptomChips` usa `normalizeSymptoms` para manter a regra de "Nenhum sintoma" consistente tambem na interacao visual.
 
 ## Estrutura do Projeto
 
@@ -62,6 +72,12 @@ src/
   app/
     App.tsx
   components/
+    AppShell.tsx
+    Button.tsx
+    Input.tsx
+    PressureCard.tsx
+    StatusBadge.tsx
+    SymptomChips.tsx
   features/
     pressure/
       components/
@@ -74,6 +90,7 @@ src/
         classifyPressure.ts
         getSuggestedPeriod.ts
         normalizeSymptoms.ts
+        symptomLabels.ts
         validatePressure.ts
   lib/
     supabase.ts
@@ -189,15 +206,18 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Criada migration Supabase com RLS e policies anonimas simples para manter o escopo sem login.
 - 2026-05-01: Criado `pressureService` com injecao de client para facilitar testes e evitar Supabase direto nos componentes.
 - 2026-05-01: Adicionado suporte a `VITE_SUPABASE_PUBLISHABLE_KEY`, mantendo `VITE_SUPABASE_ANON_KEY` como fallback.
+- 2026-05-01: Criada UI base com componentes pequenos, sem biblioteca visual adicional.
+- 2026-05-01: Ajustado layout mobile para evitar overflow horizontal em badges e inputs.
 
 ## Pendencias
 
-- Implementar UI real das telas nas Etapas 4 a 7.
+- Implementar UI real das telas nas Etapas 5 a 7.
 - Aplicar a migration no projeto Supabase quando houver decisao operacional de executar o SQL remoto.
 
 ## Proximos Passos
 
-- Iniciar Etapa 4 com layout mobile-first e componentes base.
+- Iniciar Etapa 5 com tela inicial real.
+- Substituir dados temporarios do `App` por dados vindos da camada de servico quando a home for implementada.
 - Conectar a UI ao `pressureService` somente nas etapas de tela inicial, formulario e historico.
 
 ## Problemas Encontrados e Solucoes Aplicadas
@@ -229,3 +249,12 @@ Etapa 2 concluida em 2026-05-01. A proxima etapa e Supabase, mantendo a UI ainda
 - `npm run build`: passou.
 
 Etapa 3 concluida em 2026-05-01. A migration foi criada, mas nao foi aplicada remotamente nesta etapa porque o projeto ainda nao recebeu uma rotina operacional de deploy do banco.
+
+## Validacao da Etapa 4
+
+- `npm run test`: passou com 11 arquivos e 32 testes.
+- `npm run typecheck`: passou.
+- `npm run build`: passou.
+- UI validada em captura mobile headless de 430px usando Chrome local em `http://127.0.0.1:5174`.
+
+Etapa 4 concluida em 2026-05-01. A tela atual ainda e uma composicao temporaria para validar os componentes base; a tela inicial real sera criada na Etapa 5.
