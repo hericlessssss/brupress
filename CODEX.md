@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Etapa 6 - Tela de registro concluida**.
+Etapa atual: **Etapa 7 - Historico concluido**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -57,6 +57,13 @@ Etapa 6 concluiu a tela de registro:
 - Feedback de erro quando o Supabase nao salva.
 - Navegacao simples entre home e registro sem adicionar roteador.
 
+Etapa 7 concluiu o historico:
+
+- Lista de registros agrupada por dia.
+- Estado vazio para ausencia de registros.
+- Exibicao de horario, valor, batimentos, sintomas e classificacao visual.
+- Navegacao simples entre home e historico.
+
 ## Plano de Execucao
 
 1. Criar e manter este `CODEX.md` antes de implementar funcionalidades.
@@ -83,7 +90,8 @@ Etapa 6 concluiu a tela de registro:
 - O `App` renderiza a home em estado vazio, sem dados ficticios de pressao.
 - O formulario recebe `onSave` por prop para manter testes sem rede.
 - O `App` carrega o client Supabase apenas no momento do salvamento, evitando erro de ambiente nos testes.
-- Existe deep-link simples `?view=register` para abrir a tela de registro sem roteador, usado tambem na validacao visual.
+- Existem deep-links simples `?view=register` e `?view=history` para abrir telas sem roteador, usados tambem na validacao visual.
+- O historico tambem e componente puro por props; ainda nao busca Supabase diretamente.
 
 ## Estrutura do Projeto
 
@@ -104,6 +112,7 @@ src/
     pressure/
       components/
         HomePage.tsx
+        PressureHistory.tsx
         PressureForm.tsx
         PressureSummary.tsx
         TodayStatus.tsx
@@ -119,6 +128,7 @@ src/
         symptomLabels.ts
         pressureStats.ts
         classificationMessages.ts
+        groupHistoryByDay.ts
         validatePressure.ts
   lib/
     supabase.ts
@@ -241,18 +251,21 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Criada tela de registro com `react-hook-form` e validacao manual via Zod, sem adicionar `@hookform/resolvers`.
 - 2026-05-01: Decidido nao simular sucesso local quando o Supabase falha; o app mostra erro claro e so adiciona registro na home quando o Supabase retorna sucesso.
 - 2026-05-01: Ajustado `AppShell` para largura mobile mais conservadora e padding direito maior, evitando corte em capturas de 390px.
+- 2026-05-01: Criado historico como componente puro com agrupamento por dia em utilitario separado.
+- 2026-05-01: Mantida navegacao simples por estado local em vez de introduzir roteador.
 
 ## Pendencias
 
-- Implementar UI real da tela de historico na Etapa 7.
 - Aplicar a migration no projeto Supabase quando houver decisao operacional de executar o SQL remoto.
 - Conectar a home ao `pressureService` quando a leitura remota for ativada.
 - Testar salvamento real no Supabase depois que a migration remota for aplicada.
+- Carregar registros reais no `App` usando `pressureService.listRecords`.
 
 ## Proximos Passos
 
-- Iniciar Etapa 7 com historico agrupado por dia.
-- Carregar registros reais do `pressureService` quando o fluxo remoto estiver pronto.
+- Iniciar Etapa 8 com polimento, loading/error states e revisao final.
+- Aplicar ou validar a migration remota antes do uso real.
+- Conectar carregamento remoto de registros no `App`.
 
 ## Problemas Encontrados e Solucoes Aplicadas
 
@@ -310,3 +323,12 @@ Etapa 5 concluida em 2026-05-01. A home esta pronta como tela inicial visual e f
 - UI de registro validada em captura mobile headless de 390px usando Chrome local em `http://127.0.0.1:5174/?view=register`.
 
 Etapa 6 concluida em 2026-05-01. O formulario esta pronto e conectado ao `pressureService`; o salvamento real depende da tabela existir no Supabase remoto.
+
+## Validacao da Etapa 7
+
+- `npm run test`: passou com 16 arquivos e 48 testes.
+- `npm run typecheck`: passou.
+- `npm run build`: passou.
+- UI de historico validada em captura mobile headless de 390px usando Chrome local em `http://127.0.0.1:5174/?view=history`.
+
+Etapa 7 concluida em 2026-05-01. A tela de historico esta pronta para registros em memoria; falta conectar carregamento remoto e polir estados finais na Etapa 8.

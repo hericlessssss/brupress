@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AppShell } from '../components/AppShell';
 import { HomePage } from '../features/pressure/components/HomePage';
+import { PressureHistory } from '../features/pressure/components/PressureHistory';
 import { PressureForm } from '../features/pressure/components/PressureForm';
 import {
   createPressureService,
@@ -12,14 +13,15 @@ import type {
   PressureInput,
 } from '../features/pressure/types/pressure';
 
-type AppView = 'home' | 'register';
+type AppView = 'home' | 'register' | 'history';
 
 function getInitialView(): AppView {
-  if (
-    typeof window !== 'undefined' &&
-    new URLSearchParams(window.location.search).get('view') === 'register'
-  ) {
-    return 'register';
+  if (typeof window !== 'undefined') {
+    const view = new URLSearchParams(window.location.search).get('view');
+
+    if (view === 'register' || view === 'history') {
+      return view;
+    }
   }
 
   return 'home';
@@ -56,9 +58,15 @@ export function App() {
     );
   }
 
+  if (view === 'history') {
+    return (
+      <PressureHistory records={records} onBack={() => setView('home')} />
+    );
+  }
+
   return (
     <HomePage
-      onOpenHistory={() => undefined}
+      onOpenHistory={() => setView('history')}
       onRegister={() => setView('register')}
       records={records}
     />
