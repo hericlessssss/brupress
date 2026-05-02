@@ -24,7 +24,7 @@ describe('HomePage', () => {
     );
 
     expect(screen.getByText('Brupress')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Ola Bruna !' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Bruna!/ })).toBeInTheDocument();
     expect(
       screen.getByText('Vamos ver como esta a sua pressao hoje?'),
     ).toBeInTheDocument();

@@ -45,14 +45,13 @@ export function HomePage({
             Brupress
           </p>
           <h1 className="mt-4 text-4xl font-bold leading-none tracking-normal">
-            Ola{' '}
+            Olá{' '}
             <span
               className="font-normal italic text-accent"
               style={{ fontFamily: 'Georgia, Cambria, Times New Roman, serif' }}
             >
-              Bruna
+              Bruna!
             </span>
-            !
           </h1>
           <p className="mt-3 text-base leading-7 text-secondary">
             Vamos ver como esta a sua pressao hoje?

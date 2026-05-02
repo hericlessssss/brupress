@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Topo da home refinado concluido**.
+Etapa atual: **Status do dia refinado concluido**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -43,6 +43,7 @@ Etapa 4 concluiu a base visual:
 Etapa 5 concluiu a tela inicial:
 
 - Home real com nome Brupress, saudacao pessoal, data do Brasil e status manha/tarde/noite.
+- Bloco de status do dia com linhas alinhadas e indicadores no formato dos botoes do app.
 - Estado vazio para ausencia de registros.
 - Ultimo registro quando houver dados.
 - Resumo simples dos ultimos 7 dias.
@@ -114,6 +115,7 @@ Correcao de fluxo pos-salvamento concluiu:
 - A home recebe registros por props e nao acessa Supabase diretamente. O `App` centraliza o carregamento remoto e injeta os dados nos componentes.
 - O `App` renderiza a home em estado vazio, sem dados ficticios de pressao.
 - O topo da home inicia com "Ola Bruna!", com "Ola" em sans bold e "Bruna" em serifada italica vermelha para dar acento pessoal sem adicionar fonte externa.
+- O bloco de status do dia usa colunas fixas para periodo e estado, mantendo todos os indicadores com o mesmo tamanho e proximos do texto.
 - O formulario recebe `onSave` por prop para manter testes sem rede.
 - A navegacao apos salvar deve voltar para a home, nao permanecer no formulario, para impedir envio duplicado por novo clique no botao de salvar.
 - O `App` carrega o client Supabase apenas no momento do salvamento, evitando erro de ambiente nos testes.
@@ -300,6 +302,7 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Adicionada aba de historico resumido em formato de lista tabular para facilitar avaliacao medica.
 - 2026-05-01: Refinado historico resumido com coluna propria de hora, linhas mais compactas e botoes iguais aos da home.
 - 2026-05-01: Removido o titulo "Hoje" do topo da home e substituido por saudacao pessoal com destaque tipografico em "Bruna".
+- 2026-05-02: Redesenhado o bloco de status do dia com indicadores retangulares, compactos e alinhados ao estilo dos botoes.
 
 ## Pendencias
 
