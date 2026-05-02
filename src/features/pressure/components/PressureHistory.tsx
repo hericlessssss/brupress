@@ -1,8 +1,9 @@
+import { useState } from 'react';
 import { AppShell } from '../../../components/AppShell';
 import { Button } from '../../../components/Button';
 import { StatusBadge } from '../../../components/StatusBadge';
 import type { BloodPressureRecordWithClassification } from '../types/pressure';
-import { formatBrazilTime } from '../utils/brazilDate';
+import { formatBrazilShortDate, formatBrazilTime } from '../utils/brazilDate';
 import { classificationLabels } from '../utils/classificationMessages';
 import { groupHistoryByDay } from '../utils/groupHistoryByDay';
 import { symptomLabels } from '../utils/symptomLabels';
@@ -11,6 +12,14 @@ interface PressureHistoryProps {
   records: BloodPressureRecordWithClassification[];
   onBack?: () => void;
 }
+
+type HistoryView = 'detailed' | 'summary';
+
+const periodLabels = {
+  morning: 'Manha',
+  afternoon: 'Tarde',
+  evening: 'Noite',
+};
 
 function formatTime(value: string) {
   return formatBrazilTime(value);
@@ -25,7 +34,13 @@ function formatSymptoms(record: BloodPressureRecordWithClassification) {
 }
 
 export function PressureHistory({ onBack, records }: PressureHistoryProps) {
+  const [view, setView] = useState<HistoryView>('detailed');
   const groups = groupHistoryByDay(records);
+  const sortedRecords = [...records].sort(
+    (first, second) =>
+      new Date(second.measured_at).getTime() -
+      new Date(first.measured_at).getTime(),
+  );
 
   return (
     <AppShell>
@@ -38,9 +53,42 @@ export function PressureHistory({ onBack, records }: PressureHistoryProps) {
             Historico
           </h1>
           <p className="mt-4 text-base leading-7 text-secondary">
-            Registros recentes, agrupados por dia.
+            Registros recentes para acompanhar e mostrar na consulta.
           </p>
         </header>
+
+        <div
+          aria-label="Tipo de historico"
+          className="grid grid-cols-2 rounded-md border border-line bg-background p-1"
+          role="tablist"
+        >
+          <button
+            aria-selected={view === 'detailed'}
+            className={
+              view === 'detailed'
+                ? 'min-h-11 rounded bg-primary px-3 text-sm font-semibold text-surface'
+                : 'min-h-11 rounded px-3 text-sm font-semibold text-secondary'
+            }
+            onClick={() => setView('detailed')}
+            role="tab"
+            type="button"
+          >
+            Historico detalhado
+          </button>
+          <button
+            aria-selected={view === 'summary'}
+            className={
+              view === 'summary'
+                ? 'min-h-11 rounded bg-primary px-3 text-sm font-semibold text-surface'
+                : 'min-h-11 rounded px-3 text-sm font-semibold text-secondary'
+            }
+            onClick={() => setView('summary')}
+            role="tab"
+            type="button"
+          >
+            Historico resumido
+          </button>
+        </div>
 
         {groups.length === 0 ? (
           <section className="rounded-md border border-line bg-surface p-4">
@@ -51,7 +99,7 @@ export function PressureHistory({ onBack, records }: PressureHistoryProps) {
               As medicoes salvas vao aparecer aqui.
             </p>
           </section>
-        ) : (
+        ) : view === 'detailed' ? (
           <div className="grid gap-7">
             {groups.map((group) => (
               <section aria-labelledby={`history-${group.dateKey}`} key={group.dateKey}>
@@ -105,6 +153,45 @@ export function PressureHistory({ onBack, records }: PressureHistoryProps) {
               </section>
             ))}
           </div>
+        ) : (
+          <section aria-labelledby="summary-history-title">
+            <h2 className="sr-only" id="summary-history-title">
+              Historico resumido
+            </h2>
+            <div className="overflow-hidden rounded-md border border-line">
+              <div className="grid grid-cols-[4.5rem_1fr_4.5rem] border-b border-line bg-background px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
+                <span>Data</span>
+                <span>Medicao</span>
+                <span>Periodo</span>
+              </div>
+              <div className="divide-y divide-line">
+                {sortedRecords.map((record) => (
+                  <article
+                    className="grid grid-cols-[4.5rem_1fr_4.5rem] items-center gap-2 px-3 py-3"
+                    key={record.id}
+                  >
+                    <time
+                      className="text-sm font-semibold text-secondary"
+                      dateTime={record.measured_at}
+                    >
+                      {formatBrazilShortDate(record.measured_at)}
+                    </time>
+                    <div>
+                      <p className="text-2xl font-semibold leading-none text-primary">
+                        {record.systolic}/{record.diastolic}
+                      </p>
+                      <p className="mt-1 text-xs font-semibold uppercase tracking-[0.1em] text-secondary">
+                        {formatTime(record.measured_at)}
+                      </p>
+                    </div>
+                    <span className="text-sm font-semibold text-primary">
+                      {periodLabels[record.period]}
+                    </span>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
         )}
 
         {onBack ? (

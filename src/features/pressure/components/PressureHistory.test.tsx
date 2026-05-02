@@ -17,6 +17,15 @@ const record: BloodPressureRecordWithClassification = {
   classification: 'normal',
 };
 
+const eveningRecord: BloodPressureRecordWithClassification = {
+  ...record,
+  id: 'evening-record',
+  measured_at: '2026-05-01T23:30:00.000Z',
+  period: 'evening',
+  systolic: 124,
+  diastolic: 80,
+};
+
 describe('PressureHistory', () => {
   it('renders empty state when there are no records', () => {
     render(<PressureHistory records={[]} />);
@@ -33,6 +42,8 @@ describe('PressureHistory', () => {
     render(<PressureHistory records={[record]} />);
 
     expect(screen.getByRole('heading', { name: 'Historico' })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: 'Historico detalhado' })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: 'Historico resumido' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Hoje' })).toBeInTheDocument();
     expect(screen.getByText('118/76')).toBeInTheDocument();
     expect(screen.getByText('82 bpm')).toBeInTheDocument();
@@ -40,6 +51,23 @@ describe('PressureHistory', () => {
     expect(screen.getByText('Normal')).toBeInTheDocument();
 
     vi.useRealTimers();
+  });
+
+  it('renders a compact summary table in the summary tab', async () => {
+    const user = userEvent.setup();
+
+    render(<PressureHistory records={[record, eveningRecord]} />);
+
+    await user.click(screen.getByRole('tab', { name: 'Historico resumido' }));
+
+    expect(screen.getByText('Data')).toBeInTheDocument();
+    expect(screen.getByText('Medicao')).toBeInTheDocument();
+    expect(screen.getByText('Periodo')).toBeInTheDocument();
+    expect(screen.getByText('118/76')).toBeInTheDocument();
+    expect(screen.getByText('124/80')).toBeInTheDocument();
+    expect(screen.getByText('Manha')).toBeInTheDocument();
+    expect(screen.getByText('Noite')).toBeInTheDocument();
+    expect(screen.getAllByText('01/05')).toHaveLength(2);
   });
 
   it('calls back action', async () => {
@@ -53,4 +81,3 @@ describe('PressureHistory', () => {
     expect(onBack).toHaveBeenCalledTimes(1);
   });
 });
-

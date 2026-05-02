@@ -31,6 +31,14 @@ export function formatBrazilFullDate(date = new Date()) {
   }).format(date);
 }
 
+export function formatBrazilShortDate(date: Date | string) {
+  return new Intl.DateTimeFormat('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    timeZone: BRAZIL_TIME_ZONE,
+  }).format(new Date(date));
+}
+
 export function formatBrazilTime(date: Date | string) {
   return new Intl.DateTimeFormat('pt-BR', {
     hour: '2-digit',
