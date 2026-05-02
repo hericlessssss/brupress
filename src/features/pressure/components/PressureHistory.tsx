@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { AppShell } from '../../../components/AppShell';
+import { BrandHeader } from '../../../components/BrandHeader';
 import { Button } from '../../../components/Button';
 import { StatusBadge } from '../../../components/StatusBadge';
 import type { BloodPressureRecordWithClassification } from '../types/pressure';
@@ -51,9 +52,7 @@ export function PressureHistory({ onBack, records }: PressureHistoryProps) {
     <AppShell>
       <div className="flex min-h-[calc(100vh-5.5rem)] flex-col gap-7">
         <header>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
-            Brupress
-          </p>
+          <BrandHeader />
           <h1 className="mt-3 font-display text-5xl font-bold leading-none tracking-normal text-heading">
             Historico
           </h1>

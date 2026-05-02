@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Tipografia de titulos refinada concluida**.
+Etapa atual: **Detalhe final da marca no topo concluido**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -135,6 +135,7 @@ Correcao de fluxo pos-salvamento concluiu:
 - Em `MODE=test`, o `App` nao inicia chamadas Supabase automaticamente, evitando rede e pendencias assincronas nos testes de componente.
 - Leitura remota tem timeout de 8 segundos e salvamento tem timeout de 10 segundos, evitando estado de carregamento indefinido.
 - O `AppShell` usa `w-full max-w-[430px]`, centralizado, com padding externo responsivo; o objetivo e preencher melhor smartphones estreitos sem passar do limite visual em telas maiores.
+- O topo das telas principais usa `BrandHeader` reutilizavel com o nome Brupress maior, linha sutil quase invisivel e icone decorativo vermelho ao lado da marca.
 
 ## Estrutura do Projeto
 
@@ -313,6 +314,7 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Removido o titulo "Hoje" do topo da home e substituido por saudacao pessoal com destaque tipografico em "Bruna".
 - 2026-05-02: Redesenhado o bloco de status do dia com indicadores retangulares, compactos e alinhados ao estilo dos botoes.
 - 2026-05-02: Substituidos indicadores textuais do status do dia por checkboxes visuais compactos e automaticos.
+- 2026-05-02: Criado `BrandHeader` para padronizar a marca Brupress no topo com titulo maior, linha discreta e icone vermelho.
 - 2026-05-02: Refinada tipografia dos titulos com fonte display, peso bold e tom de heading mais suave que preto absoluto.
 - 2026-05-02: Removida largura calculada do `AppShell`; adotada largura fluida para se adaptar melhor a diferentes smartphones reais.
 
@@ -402,3 +404,12 @@ Etapa 7 concluida em 2026-05-01. A tela de historico esta pronta para registros 
 - UI da home com estado de erro remoto validada em captura mobile headless de 390px usando Chrome local em `http://127.0.0.1:5175`.
 
 Etapa 8 concluida em 2026-05-01. O app esta pronto para uso inicial do ponto de vista do frontend; o uso real com Supabase depende da migration remota estar aplicada.
+
+## Validacao do Detalhe Final da Marca
+
+- `npm run test`: passou com 17 arquivos e 59 testes.
+- `npm run typecheck`: passou.
+- `npm run build`: passou.
+- UI da home validada em captura mobile headless de 390px usando Chrome local em `http://127.0.0.1:5175`.
+
+Detalhe final concluido em 2026-05-02. O header de marca esta padronizado nas telas principais sem alterar o fluxo de uso.

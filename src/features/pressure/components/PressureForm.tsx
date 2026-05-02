@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ZodError } from 'zod';
+import { BrandHeader } from '../../../components/BrandHeader';
 import { Button } from '../../../components/Button';
 import { Input } from '../../../components/Input';
 import { StatusBadge } from '../../../components/StatusBadge';
@@ -132,9 +133,7 @@ export function PressureForm({
       noValidate
     >
       <header>
-        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
-          Brupress
-        </p>
+        <BrandHeader />
         <h1 className="mt-3 font-display text-4xl font-bold leading-none tracking-normal text-heading">
           Registrar pressao
         </h1>
