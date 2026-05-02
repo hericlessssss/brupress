@@ -15,6 +15,7 @@ interface HomePageProps {
   records: BloodPressureRecordWithClassification[];
   isLoading?: boolean;
   loadError?: string | null;
+  saveFeedback?: BloodPressureRecordWithClassification | null;
   today?: Date;
   onRegister?: () => void;
   onOpenHistory?: () => void;
@@ -28,6 +29,7 @@ export function HomePage({
   onRegister,
   onRetry,
   records,
+  saveFeedback = null,
   today = new Date(),
 }: HomePageProps) {
   const statuses = getTodayPeriodStatus(records, today);
@@ -54,6 +56,26 @@ export function HomePage({
         </header>
 
         <TodayStatus statuses={statuses} />
+
+        {saveFeedback ? (
+          <section
+            className="rounded-md border border-line bg-surface p-4"
+            role="status"
+          >
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-accent">
+              Registro salvo com sucesso
+            </p>
+            <p className="mt-3 text-3xl font-semibold">
+              {saveFeedback.systolic}/{saveFeedback.diastolic}
+              <span className="ml-2 text-base font-medium text-secondary">
+                mmHg
+              </span>
+            </p>
+            <p className="mt-2 text-base leading-7 text-secondary">
+              Tudo salvo por aqui.
+            </p>
+          </section>
+        ) : null}
 
         {isLoading ? (
           <section className="rounded-md border border-line bg-surface p-4">

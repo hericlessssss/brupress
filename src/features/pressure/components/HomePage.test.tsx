@@ -46,6 +46,19 @@ describe('HomePage', () => {
     expect(screen.getByText('O primeiro registro vai aparecer aqui.')).toBeInTheDocument();
   });
 
+  it('renders save feedback after a successful record', () => {
+    render(
+      <HomePage
+        records={[record]}
+        saveFeedback={record}
+        today={new Date('2026-05-01T15:00:00')}
+      />,
+    );
+
+    expect(screen.getByText('Registro salvo com sucesso')).toBeInTheDocument();
+    expect(screen.getByText('Tudo salvo por aqui.')).toBeInTheDocument();
+  });
+
   it('renders loading state while records are being fetched', () => {
     render(
       <HomePage

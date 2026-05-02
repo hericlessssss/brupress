@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Ajuste pre-migration - periodo tarde e datas do Brasil concluido**.
+Etapa atual: **Correcao de fluxo pos-salvamento concluida**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -56,6 +56,7 @@ Etapa 6 concluiu a tela de registro:
 - Feedback de sucesso com valor registrado e mensagem por classificacao.
 - Feedback de erro quando o Supabase nao salva.
 - Navegacao simples entre home e registro sem adicionar roteador.
+- Apos salvamento com sucesso, o app volta para a home e mostra feedback de sucesso com o valor salvo, evitando duplo clique no mesmo formulario.
 
 Etapa 7 concluiu o historico:
 
@@ -79,6 +80,12 @@ Ajuste pre-migration concluiu:
 - Data de hoje exibida na home usando horario do Brasil.
 - Historico e ultimo registro formatam horario em `America/Sao_Paulo`.
 - Migration SQL atualizada antes de aplicacao remota para aceitar `morning`, `afternoon` e `evening`.
+
+Correcao de fluxo pos-salvamento concluiu:
+
+- O formulario nao permanece na tela depois de salvar com sucesso.
+- A home exibe "Registro salvo com sucesso", valor registrado e confirmacao curta.
+- O feedback de sucesso e limpo ao abrir novo registro ou historico.
 
 ## Plano de Execucao
 
@@ -105,6 +112,7 @@ Ajuste pre-migration concluiu:
 - A home recebe registros por props e nao acessa Supabase diretamente. O `App` centraliza o carregamento remoto e injeta os dados nos componentes.
 - O `App` renderiza a home em estado vazio, sem dados ficticios de pressao.
 - O formulario recebe `onSave` por prop para manter testes sem rede.
+- A navegacao apos salvar deve voltar para a home, nao permanecer no formulario, para impedir envio duplicado por novo clique no botao de salvar.
 - O `App` carrega o client Supabase apenas no momento do salvamento, evitando erro de ambiente nos testes.
 - Existem deep-links simples `?view=register` e `?view=history` para abrir telas sem roteador, usados tambem na validacao visual.
 - O historico tambem e componente puro por props; ainda nao busca Supabase diretamente.
@@ -282,6 +290,7 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Desabilitadas chamadas Supabase automaticas em `MODE=test` para manter testes deterministas e sem rede.
 - 2026-05-01: Adicionado periodo `afternoon` antes da migration remota ser aplicada.
 - 2026-05-01: Decidido usar `America/Sao_Paulo` como fuso de exibicao e sugestao de periodo, mantendo `measured_at` como `timestamptz`.
+- 2026-05-01: Corrigido fluxo pos-salvamento para redirecionar para a home com feedback, evitando registro duplicado por segundo clique no formulario.
 
 ## Pendencias
 

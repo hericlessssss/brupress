@@ -77,6 +77,8 @@ export function App() {
     hasSupabaseConfig() ? 'loading' : 'ready',
   );
   const [recordsError, setRecordsError] = useState<string | null>(null);
+  const [saveFeedback, setSaveFeedback] =
+    useState<BloodPressureRecordWithClassification | null>(null);
   const isMountedRef = useRef(false);
 
   const loadRecords = useCallback(async () => {
@@ -159,6 +161,8 @@ export function App() {
           onCancel={() => setView('home')}
           onSave={async (input) => {
             const savedRecord = await saveRecord(input);
+            setSaveFeedback(savedRecord);
+            setView('home');
             return savedRecord;
           }}
         />
@@ -174,12 +178,19 @@ export function App() {
 
   return (
     <HomePage
-      onOpenHistory={() => setView('history')}
-      onRegister={() => setView('register')}
+      onOpenHistory={() => {
+        setSaveFeedback(null);
+        setView('history');
+      }}
+      onRegister={() => {
+        setSaveFeedback(null);
+        setView('register');
+      }}
       isLoading={recordsStatus === 'loading'}
       loadError={recordsError}
       onRetry={loadRecords}
       records={records}
+      saveFeedback={saveFeedback}
     />
   );
 }
