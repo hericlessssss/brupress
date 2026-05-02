@@ -135,7 +135,7 @@ Correcao de fluxo pos-salvamento concluiu:
 - Em `MODE=test`, o `App` nao inicia chamadas Supabase automaticamente, evitando rede e pendencias assincronas nos testes de componente.
 - Leitura remota tem timeout de 8 segundos e salvamento tem timeout de 10 segundos, evitando estado de carregamento indefinido.
 - O `AppShell` usa `w-full max-w-[430px]`, centralizado, com padding externo responsivo; o objetivo e preencher melhor smartphones estreitos sem passar do limite visual em telas maiores.
-- O topo das telas principais usa `BrandHeader` reutilizavel com o nome Brupress maior, linha sutil quase invisivel e icone decorativo vermelho ao lado da marca.
+- O topo das telas principais usa `BrandHeader` reutilizavel com o nome Brupress maior, traco curto e sutil abaixo da marca e icone decorativo vermelho ao lado do titulo.
 
 ## Estrutura do Projeto
 
@@ -314,7 +314,7 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Removido o titulo "Hoje" do topo da home e substituido por saudacao pessoal com destaque tipografico em "Bruna".
 - 2026-05-02: Redesenhado o bloco de status do dia com indicadores retangulares, compactos e alinhados ao estilo dos botoes.
 - 2026-05-02: Substituidos indicadores textuais do status do dia por checkboxes visuais compactos e automaticos.
-- 2026-05-02: Criado `BrandHeader` para padronizar a marca Brupress no topo com titulo maior, linha discreta e icone vermelho.
+- 2026-05-02: Criado `BrandHeader` para padronizar a marca Brupress no topo com titulo maior, traco curto discreto e icone vermelho.
 - 2026-05-02: Refinada tipografia dos titulos com fonte display, peso bold e tom de heading mais suave que preto absoluto.
 - 2026-05-02: Removida largura calculada do `AppShell`; adotada largura fluida para se adaptar melhor a diferentes smartphones reais.
 

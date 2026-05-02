@@ -24,7 +24,7 @@ export function BrandHeader() {
           <circle cx="4.75" cy="16.25" fill="currentColor" r="1.4" />
         </svg>
       </div>
-      <div className="mt-3 h-px w-full bg-line/25" />
+      <div className="mt-1 h-px w-16 bg-[rgba(170,166,156,0.45)]" />
     </div>
   );
 }
