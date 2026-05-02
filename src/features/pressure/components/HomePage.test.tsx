@@ -24,7 +24,10 @@ describe('HomePage', () => {
     );
 
     expect(screen.getByText('Brupress')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Hoje' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Ola Bruna !' })).toBeInTheDocument();
+    expect(
+      screen.getByText('Vamos ver como esta a sua pressao hoje?'),
+    ).toBeInTheDocument();
     expect(
       screen.getByText('sexta-feira, 01 de maio de 2026'),
     ).toBeInTheDocument();

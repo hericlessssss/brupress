@@ -44,14 +44,21 @@ export function HomePage({
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
             Brupress
           </p>
-          <h1 className="mt-3 text-5xl font-semibold leading-none tracking-normal">
-            Hoje
+          <h1 className="mt-4 text-4xl font-bold leading-none tracking-normal">
+            Ola{' '}
+            <span
+              className="font-normal italic text-accent"
+              style={{ fontFamily: 'Georgia, Cambria, Times New Roman, serif' }}
+            >
+              Bruna
+            </span>
+            !
           </h1>
-          <p className="mt-4 text-sm font-semibold uppercase tracking-[0.12em] text-secondary">
-            {todayLabel}
-          </p>
           <p className="mt-3 text-base leading-7 text-secondary">
-            Olá Bruna. Vamos ver como está a sua pressão?
+            Vamos ver como esta a sua pressao hoje?
+          </p>
+          <p className="mt-2 text-sm font-semibold uppercase tracking-[0.12em] text-secondary">
+            {todayLabel}
           </p>
         </header>
 
