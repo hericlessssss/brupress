@@ -44,7 +44,7 @@ export function HomePage({
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
             Brupress
           </p>
-          <h1 className="mt-4 text-4xl font-bold leading-none tracking-normal">
+          <h1 className="mt-4 font-display text-4xl font-bold leading-none tracking-normal text-heading">
             Olá{' '}
             <span
               className="font-normal italic text-accent"
@@ -71,7 +71,7 @@ export function HomePage({
             <p className="text-sm font-semibold uppercase tracking-[0.14em] text-accent">
               Registro salvo com sucesso
             </p>
-            <p className="mt-3 text-3xl font-semibold">
+            <p className="mt-3 font-display text-3xl font-bold text-heading">
               {saveFeedback.systolic}/{saveFeedback.diastolic}
               <span className="ml-2 text-base font-medium text-secondary">
                 mmHg
@@ -88,7 +88,7 @@ export function HomePage({
             <p className="text-sm font-semibold uppercase tracking-[0.14em] text-secondary">
               Sincronizando
             </p>
-            <p className="mt-3 text-xl font-semibold">
+            <p className="mt-3 font-display text-xl font-bold text-heading">
               Buscando os registros salvos...
             </p>
           </section>
@@ -117,7 +117,7 @@ export function HomePage({
             <p className="text-sm font-semibold uppercase tracking-[0.14em] text-secondary">
               Ultimo registro
             </p>
-            <p className="mt-3 text-2xl font-semibold">
+            <p className="mt-3 font-display text-2xl font-bold text-heading">
               Nenhuma medicao registrada ainda.
             </p>
             <p className="mt-2 text-base leading-7 text-secondary">

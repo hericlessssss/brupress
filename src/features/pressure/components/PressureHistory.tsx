@@ -54,7 +54,7 @@ export function PressureHistory({ onBack, records }: PressureHistoryProps) {
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
             Brupress
           </p>
-          <h1 className="mt-3 text-5xl font-semibold leading-none tracking-normal">
+          <h1 className="mt-3 font-display text-5xl font-bold leading-none tracking-normal text-heading">
             Historico
           </h1>
           <p className="mt-4 text-base leading-7 text-secondary">
@@ -89,7 +89,7 @@ export function PressureHistory({ onBack, records }: PressureHistoryProps) {
 
         {groups.length === 0 ? (
           <section className="rounded-md border border-line bg-surface p-4">
-            <p className="text-xl font-semibold leading-tight">
+            <p className="font-display text-xl font-bold leading-tight text-heading">
               Nenhum registro no historico.
             </p>
             <p className="mt-2 text-base leading-7 text-secondary">
@@ -101,7 +101,7 @@ export function PressureHistory({ onBack, records }: PressureHistoryProps) {
             {groups.map((group) => (
               <section aria-labelledby={`history-${group.dateKey}`} key={group.dateKey}>
                 <h2
-                  className="border-b border-line pb-3 text-2xl font-semibold"
+                  className="border-b border-line pb-3 font-display text-2xl font-bold text-heading"
                   id={`history-${group.dateKey}`}
                 >
                   {group.label}
@@ -121,7 +121,7 @@ export function PressureHistory({ onBack, records }: PressureHistoryProps) {
                         </StatusBadge>
                       </div>
 
-                      <p className="mt-2 text-3xl font-semibold">
+                      <p className="mt-2 font-display text-3xl font-bold text-heading">
                         {record.systolic}/{record.diastolic}
                         <span className="ml-2 text-base font-medium text-secondary">
                           mmHg
@@ -193,7 +193,7 @@ export function PressureHistory({ onBack, records }: PressureHistoryProps) {
                     >
                       {formatTime(record.measured_at)}
                     </time>
-                    <p className="text-xl font-semibold leading-none text-primary">
+                    <p className="font-display text-xl font-bold leading-none text-heading">
                       {record.systolic}/{record.diastolic}
                     </p>
                     <span className="text-xs font-semibold text-primary">

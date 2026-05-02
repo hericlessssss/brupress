@@ -17,7 +17,7 @@ export function TodayStatus({ statuses }: TodayStatusProps) {
         <p className="text-sm font-semibold uppercase tracking-[0.14em] text-secondary">
           Hoje
         </p>
-        <h2 className="mt-1 text-2xl font-semibold" id="today-title">
+        <h2 className="mt-1 font-display text-2xl font-bold text-heading" id="today-title">
           Status do dia
         </h2>
       </div>

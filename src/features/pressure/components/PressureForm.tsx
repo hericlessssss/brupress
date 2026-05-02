@@ -135,7 +135,7 @@ export function PressureForm({
         <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">
           Brupress
         </p>
-        <h1 className="mt-3 text-4xl font-semibold leading-none tracking-normal">
+        <h1 className="mt-3 font-display text-4xl font-bold leading-none tracking-normal text-heading">
           Registrar pressao
         </h1>
         <p className="mt-4 text-base leading-7 text-secondary">
@@ -144,7 +144,7 @@ export function PressureForm({
       </header>
 
       <section aria-labelledby="period-title">
-        <h2 className="mb-3 text-sm font-semibold text-primary" id="period-title">
+        <h2 className="mb-3 font-display text-sm font-bold text-heading" id="period-title">
           Periodo
         </h2>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
@@ -168,7 +168,7 @@ export function PressureForm({
       </section>
 
       <section aria-labelledby="pressure-title">
-        <h2 className="mb-3 text-sm font-semibold text-primary" id="pressure-title">
+        <h2 className="mb-3 font-display text-sm font-bold text-heading" id="pressure-title">
           Pressao arterial
         </h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -234,7 +234,7 @@ export function PressureForm({
               Tudo salvo por aqui.
             </StatusBadge>
           </div>
-          <p className="text-3xl font-semibold">
+          <p className="font-display text-3xl font-bold text-heading">
             {savedRecord.systolic}/{savedRecord.diastolic}
             <span className="ml-2 text-base font-medium text-secondary">
               mmHg

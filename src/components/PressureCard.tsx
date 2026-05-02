@@ -20,7 +20,7 @@ export function PressureCard({ record, title = 'Ultimo registro' }: PressureCard
           <p className="text-sm font-semibold uppercase tracking-[0.14em] text-secondary">
             {title}
           </p>
-          <p className="mt-2 text-4xl font-semibold leading-none">
+          <p className="mt-2 font-display text-4xl font-bold leading-none text-heading">
             {record.systolic}/{record.diastolic}
             <span className="ml-2 text-base font-medium text-secondary">
               mmHg

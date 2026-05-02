@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Status do dia com check compacto concluido**.
+Etapa atual: **Tipografia de titulos refinada concluida**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -119,6 +119,8 @@ Correcao de fluxo pos-salvamento concluiu:
 - O `App` renderiza a home em estado vazio, sem dados ficticios de pressao.
 - O topo da home inicia com "Ola Bruna!", com "Ola" em sans bold e "Bruna" em serifada italica vermelha para dar acento pessoal sem adicionar fonte externa.
 - O bloco de status do dia usa colunas fixas para periodo e checkbox visual, mantendo todos os indicadores com o mesmo tamanho e proximos do texto.
+- Titulos e valores de destaque usam `font-display`, peso bold e `text-heading`; subtitulos continuam em `text-secondary`.
+- `--text-primary` foi suavizado e `--text-heading` foi criado para evitar preto absoluto nos titulos sem aproximar demais dos subtitulos.
 - O formulario recebe `onSave` por prop para manter testes sem rede.
 - A navegacao apos salvar deve voltar para a home, nao permanecer no formulario, para impedir envio duplicado por novo clique no botao de salvar.
 - A navegacao entre telas deve sempre resetar o scroll para o topo, evitando que historico, home ou formulario reabram na posicao anterior.
@@ -311,6 +313,7 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Removido o titulo "Hoje" do topo da home e substituido por saudacao pessoal com destaque tipografico em "Bruna".
 - 2026-05-02: Redesenhado o bloco de status do dia com indicadores retangulares, compactos e alinhados ao estilo dos botoes.
 - 2026-05-02: Substituidos indicadores textuais do status do dia por checkboxes visuais compactos e automaticos.
+- 2026-05-02: Refinada tipografia dos titulos com fonte display, peso bold e tom de heading mais suave que preto absoluto.
 - 2026-05-02: Removida largura calculada do `AppShell`; adotada largura fluida para se adaptar melhor a diferentes smartphones reais.
 
 ## Pendencias

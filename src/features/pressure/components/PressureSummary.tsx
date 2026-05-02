@@ -21,14 +21,14 @@ export function PressureSummary({ summary }: PressureSummaryProps) {
       <p className="text-sm font-semibold uppercase tracking-[0.14em] text-secondary">
         Ultimos 7 dias
       </p>
-      <h2 className="mt-1 text-2xl font-semibold" id="summary-title">
+      <h2 className="mt-1 font-display text-2xl font-bold text-heading" id="summary-title">
         Resumo simples
       </h2>
 
       <dl className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-line bg-line">
         <div className="bg-surface p-4">
           <dt className="text-sm text-secondary">Media</dt>
-          <dd className="mt-2 text-2xl font-semibold">
+          <dd className="mt-2 font-display text-2xl font-bold text-heading">
             {formatPressureValue(
               summary.averageSystolic,
               summary.averageDiastolic,
@@ -37,7 +37,7 @@ export function PressureSummary({ summary }: PressureSummaryProps) {
         </div>
         <div className="bg-surface p-4">
           <dt className="text-sm text-secondary">Maior valor</dt>
-          <dd className="mt-2 text-2xl font-semibold">
+          <dd className="mt-2 font-display text-2xl font-bold text-heading">
             {formatPressureValue(
               summary.highestSystolic,
               summary.highestDiastolic,
@@ -46,7 +46,7 @@ export function PressureSummary({ summary }: PressureSummaryProps) {
         </div>
         <div className="col-span-2 bg-surface p-4">
           <dt className="text-sm text-secondary">Registros na semana</dt>
-          <dd className="mt-2 text-2xl font-semibold">
+          <dd className="mt-2 font-display text-2xl font-bold text-heading">
             {summary.recordCount}
           </dd>
         </div>
@@ -54,4 +54,3 @@ export function PressureSummary({ summary }: PressureSummaryProps) {
     </section>
   );
 }
-
