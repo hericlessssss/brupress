@@ -134,6 +134,10 @@ export function App() {
     };
   }, [loadRecords]);
 
+  useEffect(() => {
+    window.scrollTo({ left: 0, top: 0 });
+  }, [view]);
+
   async function saveRecord(input: PressureInput) {
     try {
       const pressureService = await getPressureService();

@@ -1,9 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { App } from './App';
 
 describe('App', () => {
+  beforeEach(() => {
+    vi.stubGlobal('scrollTo', vi.fn());
+  });
+
   it('renders the Brupress shell', () => {
     render(<App />);
 
@@ -20,12 +24,16 @@ describe('App', () => {
 
     await user.click(screen.getByRole('button', { name: 'Ver historico' }));
     expect(screen.getByRole('heading', { name: 'Historico' })).toBeInTheDocument();
+    expect(window.scrollTo).toHaveBeenLastCalledWith({ left: 0, top: 0 });
 
     await user.click(screen.getByRole('button', { name: 'Voltar' }));
+    expect(window.scrollTo).toHaveBeenLastCalledWith({ left: 0, top: 0 });
+
     await user.click(screen.getByRole('button', { name: 'Registrar pressao' }));
 
     expect(
       screen.getByRole('heading', { name: 'Registrar pressao' }),
     ).toBeInTheDocument();
+    expect(window.scrollTo).toHaveBeenLastCalledWith({ left: 0, top: 0 });
   });
 });

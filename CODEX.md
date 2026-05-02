@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Shell mobile adaptativo concluido**.
+Etapa atual: **Reset de scroll na navegacao concluido**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -76,6 +76,7 @@ Etapa 8 concluiu o polimento inicial:
 - Ajuste responsivo do `AppShell` em viewport mobile estreito.
 - `AppShell` voltou a usar largura fluida em celulares reais, com padding externo pequeno e `max-width` apenas como limite.
 - Teste de navegacao entre telas principais.
+- Reset de scroll para o topo sempre que a tela ativa muda.
 
 Ajuste pre-migration concluiu:
 
@@ -119,6 +120,7 @@ Correcao de fluxo pos-salvamento concluiu:
 - O bloco de status do dia usa colunas fixas para periodo e estado, mantendo todos os indicadores com o mesmo tamanho e proximos do texto.
 - O formulario recebe `onSave` por prop para manter testes sem rede.
 - A navegacao apos salvar deve voltar para a home, nao permanecer no formulario, para impedir envio duplicado por novo clique no botao de salvar.
+- A navegacao entre telas deve sempre resetar o scroll para o topo, evitando que historico, home ou formulario reabram na posicao anterior.
 - O `App` carrega o client Supabase apenas no momento do salvamento, evitando erro de ambiente nos testes.
 - Existem deep-links simples `?view=register` e `?view=history` para abrir telas sem roteador, usados tambem na validacao visual.
 - O historico tambem e componente puro por props; ainda nao busca Supabase diretamente.
@@ -292,6 +294,7 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Ajustado `AppShell` para largura mobile mais conservadora e padding direito maior, evitando corte em capturas de 390px.
 - 2026-05-01: Criado historico como componente puro com agrupamento por dia em utilitario separado.
 - 2026-05-01: Mantida navegacao simples por estado local em vez de introduzir roteador.
+- 2026-05-02: Adicionado reset de scroll em toda troca de tela principal.
 - 2026-05-01: Conectado carregamento remoto de registros no `App`, mantendo Supabase fora dos componentes.
 - 2026-05-01: Adicionados estados de sincronizacao e erro recuperavel na home.
 - 2026-05-01: Adicionados timeouts de leitura e salvamento para evitar loading indefinido quando a tabela remota ainda nao estiver pronta.
