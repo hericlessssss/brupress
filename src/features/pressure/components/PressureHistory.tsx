@@ -59,35 +59,27 @@ export function PressureHistory({ onBack, records }: PressureHistoryProps) {
 
         <div
           aria-label="Tipo de historico"
-          className="grid grid-cols-2 rounded-md border border-line bg-background p-1"
+          className="grid grid-cols-1 gap-3 sm:grid-cols-2"
           role="tablist"
         >
-          <button
+          <Button
             aria-selected={view === 'detailed'}
-            className={
-              view === 'detailed'
-                ? 'min-h-11 rounded bg-primary px-3 text-sm font-semibold text-surface'
-                : 'min-h-11 rounded px-3 text-sm font-semibold text-secondary'
-            }
+            fullWidth
             onClick={() => setView('detailed')}
             role="tab"
-            type="button"
+            variant={view === 'detailed' ? 'primary' : 'secondary'}
           >
             Historico detalhado
-          </button>
-          <button
+          </Button>
+          <Button
             aria-selected={view === 'summary'}
-            className={
-              view === 'summary'
-                ? 'min-h-11 rounded bg-primary px-3 text-sm font-semibold text-surface'
-                : 'min-h-11 rounded px-3 text-sm font-semibold text-secondary'
-            }
+            fullWidth
             onClick={() => setView('summary')}
             role="tab"
-            type="button"
+            variant={view === 'summary' ? 'primary' : 'secondary'}
           >
             Historico resumido
-          </button>
+          </Button>
         </div>
 
         {groups.length === 0 ? (
@@ -159,32 +151,34 @@ export function PressureHistory({ onBack, records }: PressureHistoryProps) {
               Historico resumido
             </h2>
             <div className="overflow-hidden rounded-md border border-line">
-              <div className="grid grid-cols-[4.5rem_1fr_4.5rem] border-b border-line bg-background px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-secondary">
+              <div className="grid grid-cols-[3.75rem_3.25rem_1fr_3.5rem] items-center gap-2 border-b border-line bg-background px-2 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.08em] text-secondary">
                 <span>Data</span>
+                <span>Hora</span>
                 <span>Medicao</span>
                 <span>Periodo</span>
               </div>
               <div className="divide-y divide-line">
                 {sortedRecords.map((record) => (
                   <article
-                    className="grid grid-cols-[4.5rem_1fr_4.5rem] items-center gap-2 px-3 py-3"
+                    className="grid grid-cols-[3.75rem_3.25rem_1fr_3.5rem] items-center gap-2 px-2 py-2"
                     key={record.id}
                   >
                     <time
-                      className="text-sm font-semibold text-secondary"
+                      className="text-xs font-semibold text-secondary"
                       dateTime={record.measured_at}
                     >
                       {formatBrazilShortDate(record.measured_at)}
                     </time>
-                    <div>
-                      <p className="text-2xl font-semibold leading-none text-primary">
-                        {record.systolic}/{record.diastolic}
-                      </p>
-                      <p className="mt-1 text-xs font-semibold uppercase tracking-[0.1em] text-secondary">
-                        {formatTime(record.measured_at)}
-                      </p>
-                    </div>
-                    <span className="text-sm font-semibold text-primary">
+                    <time
+                      className="text-xs font-semibold text-secondary"
+                      dateTime={record.measured_at}
+                    >
+                      {formatTime(record.measured_at)}
+                    </time>
+                    <p className="text-xl font-semibold leading-none text-primary">
+                      {record.systolic}/{record.diastolic}
+                    </p>
+                    <span className="text-xs font-semibold text-primary">
                       {periodLabels[record.period]}
                     </span>
                   </article>

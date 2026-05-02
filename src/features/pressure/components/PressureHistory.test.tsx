@@ -61,10 +61,13 @@ describe('PressureHistory', () => {
     await user.click(screen.getByRole('tab', { name: 'Historico resumido' }));
 
     expect(screen.getByText('Data')).toBeInTheDocument();
+    expect(screen.getByText('Hora')).toBeInTheDocument();
     expect(screen.getByText('Medicao')).toBeInTheDocument();
     expect(screen.getByText('Periodo')).toBeInTheDocument();
     expect(screen.getByText('118/76')).toBeInTheDocument();
     expect(screen.getByText('124/80')).toBeInTheDocument();
+    expect(screen.getByText('08:30')).toBeInTheDocument();
+    expect(screen.getByText('20:30')).toBeInTheDocument();
     expect(screen.getByText('Manha')).toBeInTheDocument();
     expect(screen.getByText('Noite')).toBeInTheDocument();
     expect(screen.getAllByText('01/05')).toHaveLength(2);

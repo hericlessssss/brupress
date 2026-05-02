@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Historico resumido concluido**.
+Etapa atual: **Historico resumido refinado concluido**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -65,7 +65,7 @@ Etapa 7 concluiu o historico:
 - Exibicao de horario, valor, batimentos, sintomas e classificacao visual.
 - Navegacao simples entre home e historico.
 - Abas para alternar entre historico detalhado e historico resumido.
-- Historico resumido em formato compacto, uma medicao por linha, com data, valor destacado, horario e periodo.
+- Historico resumido em formato compacto, uma medicao por linha, com data, hora, valor destacado e periodo.
 
 Etapa 8 concluiu o polimento inicial:
 
@@ -119,7 +119,8 @@ Correcao de fluxo pos-salvamento concluiu:
 - Existem deep-links simples `?view=register` e `?view=history` para abrir telas sem roteador, usados tambem na validacao visual.
 - O historico tambem e componente puro por props; ainda nao busca Supabase diretamente.
 - O historico possui duas visualizacoes na mesma tela: detalhada para contexto clinico do registro e resumida para leitura rapida em consulta.
-- A visualizacao resumida prioriza a medicao no centro da linha e mantem data e periodo como colunas fixas.
+- A visualizacao resumida prioriza a medicao no centro da linha e mantem data, hora e periodo como colunas fixas.
+- As abas do historico usam o mesmo componente `Button` da tela inicial para manter consistencia visual.
 - O `App` so importa Supabase dinamicamente quando as variaveis `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` ou `VITE_SUPABASE_ANON_KEY` existem.
 - Em `MODE=test`, o `App` nao inicia chamadas Supabase automaticamente, evitando rede e pendencias assincronas nos testes de componente.
 - Leitura remota tem timeout de 8 segundos e salvamento tem timeout de 10 segundos, evitando estado de carregamento indefinido.
@@ -296,6 +297,7 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Decidido usar `America/Sao_Paulo` como fuso de exibicao e sugestao de periodo, mantendo `measured_at` como `timestamptz`.
 - 2026-05-01: Corrigido fluxo pos-salvamento para redirecionar para a home com feedback, evitando registro duplicado por segundo clique no formulario.
 - 2026-05-01: Adicionada aba de historico resumido em formato de lista tabular para facilitar avaliacao medica.
+- 2026-05-01: Refinado historico resumido com coluna propria de hora, linhas mais compactas e botoes iguais aos da home.
 
 ## Pendencias
 
