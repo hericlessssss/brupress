@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Status do dia refinado concluido**.
+Etapa atual: **Shell mobile adaptativo concluido**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -74,6 +74,7 @@ Etapa 8 concluiu o polimento inicial:
 - Estados de sincronizacao e erro recuperavel na home.
 - Timeout de leitura e salvamento para evitar loading indefinido.
 - Ajuste responsivo do `AppShell` em viewport mobile estreito.
+- `AppShell` voltou a usar largura fluida em celulares reais, com padding externo pequeno e `max-width` apenas como limite.
 - Teste de navegacao entre telas principais.
 
 Ajuste pre-migration concluiu:
@@ -127,7 +128,7 @@ Correcao de fluxo pos-salvamento concluiu:
 - O `App` so importa Supabase dinamicamente quando as variaveis `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` ou `VITE_SUPABASE_ANON_KEY` existem.
 - Em `MODE=test`, o `App` nao inicia chamadas Supabase automaticamente, evitando rede e pendencias assincronas nos testes de componente.
 - Leitura remota tem timeout de 8 segundos e salvamento tem timeout de 10 segundos, evitando estado de carregamento indefinido.
-- Em mobile, o `AppShell` fica alinhado a esquerda e centraliza apenas a partir de `sm`, porque a validacao em Chrome headless mostrou crop lateral em viewport estreito quando o shell era centralizado.
+- O `AppShell` usa `w-full max-w-[430px]`, centralizado, com padding externo responsivo; o objetivo e preencher melhor smartphones estreitos sem passar do limite visual em telas maiores.
 
 ## Estrutura do Projeto
 
@@ -303,6 +304,7 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Refinado historico resumido com coluna propria de hora, linhas mais compactas e botoes iguais aos da home.
 - 2026-05-01: Removido o titulo "Hoje" do topo da home e substituido por saudacao pessoal com destaque tipografico em "Bruna".
 - 2026-05-02: Redesenhado o bloco de status do dia com indicadores retangulares, compactos e alinhados ao estilo dos botoes.
+- 2026-05-02: Removida largura calculada do `AppShell`; adotada largura fluida para se adaptar melhor a diferentes smartphones reais.
 
 ## Pendencias
 
