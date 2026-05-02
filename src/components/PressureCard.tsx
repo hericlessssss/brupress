@@ -2,6 +2,7 @@ import { StatusBadge } from './StatusBadge';
 import type {
   BloodPressureRecordWithClassification,
 } from '../features/pressure/types/pressure';
+import { formatBrazilTime } from '../features/pressure/utils/brazilDate';
 import { classificationLabels } from '../features/pressure/utils/classificationMessages';
 
 interface PressureCardProps {
@@ -10,11 +11,7 @@ interface PressureCardProps {
 }
 
 export function PressureCard({ record, title = 'Ultimo registro' }: PressureCardProps) {
-  const measuredAt = new Date(record.measured_at);
-  const timeLabel = measuredAt.toLocaleTimeString('pt-BR', {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+  const timeLabel = formatBrazilTime(record.measured_at);
 
   return (
     <article className="rounded-md border border-line bg-surface p-4">

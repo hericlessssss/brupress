@@ -2,7 +2,7 @@ create table if not exists public.blood_pressure_records (
   id uuid primary key default gen_random_uuid(),
 
   measured_at timestamptz not null default now(),
-  period text not null check (period in ('morning', 'evening')),
+  period text not null check (period in ('morning', 'afternoon', 'evening')),
 
   systolic integer not null check (systolic between 60 and 250),
   diastolic integer not null check (diastolic between 30 and 160),

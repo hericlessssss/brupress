@@ -3,6 +3,7 @@ import type { TodayPeriodStatus } from '../utils/pressureStats';
 
 const periodLabels = {
   morning: 'Manha',
+  afternoon: 'Tarde',
   evening: 'Noite',
 };
 

@@ -1,13 +1,10 @@
-import {
-  endOfDay,
-  isWithinInterval,
-  startOfDay,
-  subDays,
-} from 'date-fns';
 import type {
   BloodPressureRecordWithClassification,
   PressurePeriod,
 } from '../types/pressure';
+import { getBrazilDateKey } from './brazilDate';
+
+export const pressurePeriods = ['morning', 'afternoon', 'evening'] as const;
 
 export interface TodayPeriodStatus {
   period: PressurePeriod;
@@ -27,16 +24,12 @@ export function getTodayPeriodStatus(
   records: BloodPressureRecordWithClassification[],
   date = new Date(),
 ): TodayPeriodStatus[] {
-  const dayStart = startOfDay(date);
-  const dayEnd = endOfDay(date);
-  const todayRecords = records.filter((record) =>
-    isWithinInterval(new Date(record.measured_at), {
-      start: dayStart,
-      end: dayEnd,
-    }),
+  const todayKey = getBrazilDateKey(date);
+  const todayRecords = records.filter(
+    (record) => getBrazilDateKey(new Date(record.measured_at)) === todayKey,
   );
 
-  return (['morning', 'evening'] as const).map((period) => {
+  return pressurePeriods.map((period) => {
     const record = todayRecords.find((item) => item.period === period);
 
     return {
@@ -61,12 +54,13 @@ export function getSevenDaySummary(
   records: BloodPressureRecordWithClassification[],
   date = new Date(),
 ): SevenDaySummary {
-  const interval = {
-    start: startOfDay(subDays(date, 6)),
-    end: endOfDay(date),
-  };
+  const recentDateKeys = new Set(
+    Array.from({ length: 7 }, (_, dayOffset) =>
+      getBrazilDateKey(new Date(date.getTime() - dayOffset * 24 * 60 * 60 * 1000)),
+    ),
+  );
   const recentRecords = records.filter((record) =>
-    isWithinInterval(new Date(record.measured_at), interval),
+    recentDateKeys.has(getBrazilDateKey(new Date(record.measured_at))),
   );
 
   if (recentRecords.length === 0) {
@@ -99,4 +93,3 @@ export function getSevenDaySummary(
     recordCount: recentRecords.length,
   };
 }
-

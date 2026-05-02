@@ -26,11 +26,15 @@ describe('HomePage', () => {
     expect(screen.getByText('Brupress')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Hoje' })).toBeInTheDocument();
     expect(
+      screen.getByText('sexta-feira, 01 de maio de 2026'),
+    ).toBeInTheDocument();
+    expect(
       screen.getByRole('heading', { name: 'Status do dia' }),
     ).toBeInTheDocument();
     expect(screen.getAllByText('118/76')).toHaveLength(3);
+    expect(screen.getByText('Tarde')).toBeInTheDocument();
     expect(screen.getByText('Registrado')).toBeInTheDocument();
-    expect(screen.getByText('Pendente')).toBeInTheDocument();
+    expect(screen.getAllByText('Pendente')).toHaveLength(2);
   });
 
   it('renders empty state when there are no records', () => {

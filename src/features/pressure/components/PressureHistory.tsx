@@ -2,6 +2,7 @@ import { AppShell } from '../../../components/AppShell';
 import { Button } from '../../../components/Button';
 import { StatusBadge } from '../../../components/StatusBadge';
 import type { BloodPressureRecordWithClassification } from '../types/pressure';
+import { formatBrazilTime } from '../utils/brazilDate';
 import { classificationLabels } from '../utils/classificationMessages';
 import { groupHistoryByDay } from '../utils/groupHistoryByDay';
 import { symptomLabels } from '../utils/symptomLabels';
@@ -12,10 +13,7 @@ interface PressureHistoryProps {
 }
 
 function formatTime(value: string) {
-  return new Date(value).toLocaleTimeString('pt-BR', {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+  return formatBrazilTime(value);
 }
 
 function formatSymptoms(record: BloodPressureRecordWithClassification) {

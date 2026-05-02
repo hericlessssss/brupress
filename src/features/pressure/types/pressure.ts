@@ -1,4 +1,4 @@
-export type PressurePeriod = 'morning' | 'evening';
+export type PressurePeriod = 'morning' | 'afternoon' | 'evening';
 
 export type PressureClassification = 'normal' | 'attention' | 'severe';
 
@@ -42,4 +42,3 @@ export interface PressureInput {
   symptoms: Symptom[];
   notes?: string | null;
 }
-

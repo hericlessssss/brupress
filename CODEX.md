@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Etapa 8 - Polimento concluido**.
+Etapa atual: **Ajuste pre-migration - periodo tarde e datas do Brasil concluido**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -42,7 +42,7 @@ Etapa 4 concluiu a base visual:
 
 Etapa 5 concluiu a tela inicial:
 
-- Home real com nome Brupress, saudacao do dia e status manha/noite.
+- Home real com nome Brupress, saudacao do dia, data do Brasil e status manha/tarde/noite.
 - Estado vazio para ausencia de registros.
 - Ultimo registro quando houver dados.
 - Resumo simples dos ultimos 7 dias.
@@ -71,6 +71,14 @@ Etapa 8 concluiu o polimento inicial:
 - Timeout de leitura e salvamento para evitar loading indefinido.
 - Ajuste responsivo do `AppShell` em viewport mobile estreito.
 - Teste de navegacao entre telas principais.
+
+Ajuste pre-migration concluiu:
+
+- Inclusao do periodo `afternoon` para status e registro da tarde.
+- Sugestao automatica de periodo baseada no horario de `America/Sao_Paulo`.
+- Data de hoje exibida na home usando horario do Brasil.
+- Historico e ultimo registro formatam horario em `America/Sao_Paulo`.
+- Migration SQL atualizada antes de aplicacao remota para aceitar `morning`, `afternoon` e `evening`.
 
 ## Plano de Execucao
 
@@ -156,7 +164,7 @@ Modelo alvo para Supabase, a ser criado na Etapa 3:
 create table blood_pressure_records (
   id uuid primary key default gen_random_uuid(),
   measured_at timestamptz not null default now(),
-  period text not null check (period in ('morning', 'evening')),
+  period text not null check (period in ('morning', 'afternoon', 'evening')),
   systolic integer not null check (systolic between 60 and 250),
   diastolic integer not null check (diastolic between 30 and 160),
   heart_rate integer check (heart_rate between 30 and 220),
@@ -172,9 +180,10 @@ A migration tambem cria indices por `measured_at` e por `period, measured_at`, h
 
 ## Regras de Negocio
 
-- A pressao deve ser registrada duas vezes ao dia: manha e noite.
-- Antes de 12h, o periodo sugerido sera manha.
-- A partir de 12h, o periodo sugerido sera noite.
+- A pressao deve ser registrada tres vezes ao dia: manha, tarde e noite.
+- Antes de 12h no horario de Sao Paulo, o periodo sugerido sera manha.
+- De 12h ate antes de 18h no horario de Sao Paulo, o periodo sugerido sera tarde.
+- A partir de 18h no horario de Sao Paulo, o periodo sugerido sera noite.
 - A usuaria podera alterar manualmente o periodo.
 - Sistólica, diastólica e periodo sao obrigatorios.
 - Batimentos, sintomas e observacao sao opcionais.
@@ -184,6 +193,7 @@ A migration tambem cria indices por `measured_at` e por `period, measured_at`, h
 - Sistólica deve ser maior que diastólica.
 - "Nenhum sintoma" nao pode coexistir com outros sintomas.
 - O app nao deve emitir diagnostico medico.
+- `measured_at` grava o timestamp exato da medicao; a UI formata data e hora no fuso `America/Sao_Paulo` para status e historico.
 
 ## Classificacao Visual
 
@@ -270,6 +280,8 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Adicionados timeouts de leitura e salvamento para evitar loading indefinido quando a tabela remota ainda nao estiver pronta.
 - 2026-05-01: Ajustado `AppShell` para evitar crop lateral em captura mobile de 390px.
 - 2026-05-01: Desabilitadas chamadas Supabase automaticas em `MODE=test` para manter testes deterministas e sem rede.
+- 2026-05-01: Adicionado periodo `afternoon` antes da migration remota ser aplicada.
+- 2026-05-01: Decidido usar `America/Sao_Paulo` como fuso de exibicao e sugestao de periodo, mantendo `measured_at` como `timestamptz`.
 
 ## Pendencias
 

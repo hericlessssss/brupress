@@ -32,6 +32,7 @@ describe('PressureForm', () => {
 
     expect(screen.getByRole('heading', { name: 'Registrar pressao' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Manha' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Tarde' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Noite' })).toBeInTheDocument();
     expect(screen.getByLabelText('Sistolica')).toBeInTheDocument();
     expect(screen.getByLabelText('Diastolica')).toBeInTheDocument();

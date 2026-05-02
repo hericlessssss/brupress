@@ -1,25 +1,10 @@
-import { isToday, isYesterday } from 'date-fns';
 import type { BloodPressureRecordWithClassification } from '../types/pressure';
+import { formatBrazilDayLabel, getBrazilDateKey } from './brazilDate';
 
 export interface PressureHistoryDay {
   dateKey: string;
   label: string;
   records: BloodPressureRecordWithClassification[];
-}
-
-function formatDayLabel(date: Date) {
-  if (isToday(date)) {
-    return 'Hoje';
-  }
-
-  if (isYesterday(date)) {
-    return 'Ontem';
-  }
-
-  return date.toLocaleDateString('pt-BR', {
-    day: '2-digit',
-    month: 'long',
-  });
 }
 
 export function groupHistoryByDay(
@@ -33,7 +18,7 @@ export function groupHistoryByDay(
 
   return sortedRecords.reduce<PressureHistoryDay[]>((groups, record) => {
     const measuredAt = new Date(record.measured_at);
-    const dateKey = measuredAt.toISOString().slice(0, 10);
+    const dateKey = getBrazilDateKey(measuredAt);
     const currentGroup = groups.find((group) => group.dateKey === dateKey);
 
     if (currentGroup) {
@@ -43,11 +28,10 @@ export function groupHistoryByDay(
 
     groups.push({
       dateKey,
-      label: formatDayLabel(measuredAt),
+      label: formatBrazilDayLabel(measuredAt),
       records: [record],
     });
 
     return groups;
   }, []);
 }
-

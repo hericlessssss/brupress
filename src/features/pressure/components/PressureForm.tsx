@@ -34,6 +34,7 @@ interface PressureFormValues {
 
 const periodLabels: Record<PressurePeriod, string> = {
   morning: 'Manha',
+  afternoon: 'Tarde',
   evening: 'Noite',
 };
 
@@ -146,8 +147,8 @@ export function PressureForm({
         <h2 className="mb-3 text-sm font-semibold text-primary" id="period-title">
           Periodo
         </h2>
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-          {(['morning', 'evening'] as const).map((period) => (
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+          {(['morning', 'afternoon', 'evening'] as const).map((period) => (
             <button
               aria-pressed={selectedPeriod === period}
               className={

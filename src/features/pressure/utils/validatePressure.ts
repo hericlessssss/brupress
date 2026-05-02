@@ -19,7 +19,7 @@ const symptomSchema = z.enum([
 
 export const pressureInputSchema = z
   .object({
-    period: z.enum(['morning', 'evening'], {
+    period: z.enum(['morning', 'afternoon', 'evening'], {
       required_error: 'Informe o periodo da medicao.',
     }),
     systolic: z
@@ -71,4 +71,3 @@ export const pressureInputSchema = z
 export function validatePressure(input: unknown): PressureInput {
   return pressureInputSchema.parse(input);
 }
-

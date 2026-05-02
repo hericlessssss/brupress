@@ -2,6 +2,7 @@ import { AppShell } from '../../../components/AppShell';
 import { Button } from '../../../components/Button';
 import { PressureCard } from '../../../components/PressureCard';
 import type { BloodPressureRecordWithClassification } from '../types/pressure';
+import { formatBrazilFullDate } from '../utils/brazilDate';
 import {
   getLastRecord,
   getSevenDaySummary,
@@ -32,6 +33,7 @@ export function HomePage({
   const statuses = getTodayPeriodStatus(records, today);
   const lastRecord = getLastRecord(records);
   const summary = getSevenDaySummary(records, today);
+  const todayLabel = formatBrazilFullDate(today);
 
   return (
     <AppShell>
@@ -43,7 +45,10 @@ export function HomePage({
           <h1 className="mt-3 text-5xl font-semibold leading-none tracking-normal">
             Hoje
           </h1>
-          <p className="mt-4 text-base leading-7 text-secondary">
+          <p className="mt-4 text-sm font-semibold uppercase tracking-[0.12em] text-secondary">
+            {todayLabel}
+          </p>
+          <p className="mt-3 text-base leading-7 text-secondary">
             Olá Bruna. Vamos ver como está a sua pressão?
           </p>
         </header>

@@ -24,10 +24,15 @@ function record(
 }
 
 describe('pressureStats', () => {
-  it('marks morning and evening status for the selected day', () => {
+  it('marks morning, afternoon and evening status for the selected day', () => {
     const statuses = getTodayPeriodStatus(
       [
         record({ id: 'morning', period: 'morning' }),
+        record({
+          id: 'afternoon',
+          period: 'afternoon',
+          measured_at: '2026-05-01T18:00:00.000Z',
+        }),
         record({
           id: 'yesterday-evening',
           period: 'evening',
@@ -39,6 +44,7 @@ describe('pressureStats', () => {
 
     expect(statuses).toEqual([
       expect.objectContaining({ period: 'morning', done: true }),
+      expect.objectContaining({ period: 'afternoon', done: true }),
       expect.objectContaining({ period: 'evening', done: false }),
     ]);
   });
@@ -79,4 +85,3 @@ describe('pressureStats', () => {
     });
   });
 });
-
