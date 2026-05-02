@@ -40,10 +40,11 @@ export function HomePage({
 
   return (
     <AppShell>
-      <div className="flex min-h-[calc(100vh-5.5rem)] flex-col gap-7">
-        <header>
+      <div className="flex min-h-[calc(100vh-5.5rem)] min-w-0 max-w-full flex-col gap-7">
+        <header className="grid gap-5 overflow-visible py-2">
           <BrandHeader />
-          <h1 className="mt-4 font-display text-4xl font-bold leading-none tracking-normal text-heading">
+          <div className="grid gap-2">
+          <h1 className="font-display text-4xl font-bold leading-none tracking-normal text-heading">
             Olá{' '}
             <span
               className="font-normal italic text-accent"
@@ -52,12 +53,13 @@ export function HomePage({
               Bruna!
             </span>
           </h1>
-          <p className="mt-3 text-base leading-7 text-secondary">
+          <p className="text-base leading-7 text-secondary">
             Vamos ver como esta a sua pressao hoje?
           </p>
-          <p className="mt-2 text-sm font-semibold uppercase tracking-[0.12em] text-secondary">
+          <p className="text-sm font-semibold uppercase tracking-[0.12em] text-secondary">
             {todayLabel}
           </p>
+          </div>
         </header>
 
         <TodayStatus statuses={statuses} />

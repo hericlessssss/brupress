@@ -1,7 +1,7 @@
 export function BrandHeader() {
   return (
-    <div>
-      <div className="flex items-center gap-3">
+    <div className="grid w-80 max-w-full gap-3 sm:w-full">
+      <div className="grid grid-cols-[1fr_auto] items-center gap-4">
         <p className="font-display text-lg font-bold uppercase tracking-[0.22em] text-accent">
           Brupress
         </p>
@@ -24,7 +24,7 @@ export function BrandHeader() {
           <circle cx="4.75" cy="16.25" fill="currentColor" r="1.4" />
         </svg>
       </div>
-      <div className="mt-1 h-px w-16 bg-[rgba(170,166,156,0.45)]" />
+      <div className="h-px w-full bg-[rgba(170,166,156,0.45)]" />
     </div>
   );
 }

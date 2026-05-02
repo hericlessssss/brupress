@@ -134,8 +134,9 @@ Correcao de fluxo pos-salvamento concluiu:
 - O `App` so importa Supabase dinamicamente quando as variaveis `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` ou `VITE_SUPABASE_ANON_KEY` existem.
 - Em `MODE=test`, o `App` nao inicia chamadas Supabase automaticamente, evitando rede e pendencias assincronas nos testes de componente.
 - Leitura remota tem timeout de 8 segundos e salvamento tem timeout de 10 segundos, evitando estado de carregamento indefinido.
-- O `AppShell` usa `w-full max-w-[430px]`, centralizado, com padding externo responsivo; o objetivo e preencher melhor smartphones estreitos sem passar do limite visual em telas maiores.
-- O topo das telas principais usa `BrandHeader` reutilizavel com o nome Brupress maior, traco curto e sutil abaixo da marca e icone decorativo vermelho ao lado do titulo.
+- O `AppShell` usa `w-full min-w-0 max-w-[430px]`, centralizado, com padding externo responsivo; o objetivo e preencher melhor smartphones estreitos sem passar do limite visual em telas maiores.
+- O topo das telas principais usa `BrandHeader` reutilizavel com o nome Brupress maior, logo a esquerda, icone decorativo vermelho a direita e divisoria horizontal sutil quase completa.
+- A home trata o header como uma secao hero vertical, com saudacao, texto auxiliar e data dentro do mesmo bloco de topo.
 
 ## Estrutura do Projeto
 
@@ -314,9 +315,10 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Removido o titulo "Hoje" do topo da home e substituido por saudacao pessoal com destaque tipografico em "Bruna".
 - 2026-05-02: Redesenhado o bloco de status do dia com indicadores retangulares, compactos e alinhados ao estilo dos botoes.
 - 2026-05-02: Substituidos indicadores textuais do status do dia por checkboxes visuais compactos e automaticos.
-- 2026-05-02: Criado `BrandHeader` para padronizar a marca Brupress no topo com titulo maior, traco curto discreto e icone vermelho.
+- 2026-05-02: Criado `BrandHeader` para padronizar a marca Brupress no topo com titulo maior, divisoria discreta e icone vermelho.
 - 2026-05-02: Refinada tipografia dos titulos com fonte display, peso bold e tom de heading mais suave que preto absoluto.
 - 2026-05-02: Removida largura calculada do `AppShell`; adotada largura fluida para se adaptar melhor a diferentes smartphones reais.
+- 2026-05-02: Reestruturado header da home como hero minimalista com logo, icone, divisoria e saudacao no mesmo bloco vertical.
 
 ## Pendencias
 
@@ -413,3 +415,12 @@ Etapa 8 concluida em 2026-05-01. O app esta pronto para uso inicial do ponto de 
 - UI da home validada em captura mobile headless de 390px usando Chrome local em `http://127.0.0.1:5175`.
 
 Detalhe final concluido em 2026-05-02. O header de marca esta padronizado nas telas principais sem alterar o fluxo de uso.
+
+## Validacao do Header Hero
+
+- `npm run test`: passou com 17 arquivos e 59 testes.
+- `npm run typecheck`: passou.
+- `npm run build`: passou.
+- UI da home validada em captura mobile headless de 390px usando Chrome local em `http://127.0.0.1:5175`.
+
+Header hero concluido em 2026-05-02. O topo da home agora cresce naturalmente com logo, icone, divisoria, saudacao, texto auxiliar e data no mesmo bloco visual.
