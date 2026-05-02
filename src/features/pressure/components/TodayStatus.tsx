@@ -12,8 +12,8 @@ interface TodayStatusProps {
 
 export function TodayStatus({ statuses }: TodayStatusProps) {
   return (
-    <section className="border-y border-line py-5" aria-labelledby="today-title">
-      <div className="mb-4">
+    <section className="border-y border-line py-4" aria-labelledby="today-title">
+      <div className="mb-3">
         <p className="text-sm font-semibold uppercase tracking-[0.14em] text-secondary">
           Hoje
         </p>
@@ -22,23 +22,26 @@ export function TodayStatus({ statuses }: TodayStatusProps) {
         </h2>
       </div>
 
-      <div className="grid gap-2">
+      <div className="grid gap-1.5">
         {statuses.map((status) => (
           <div
-            className="grid grid-cols-[4.5rem_6rem] items-center gap-2"
+            className="grid grid-cols-[5.25rem_1.75rem] items-center gap-2"
             key={status.period}
           >
-            <span className="text-base font-semibold">
+            <span className="text-sm font-semibold uppercase tracking-[0.12em] text-secondary">
               {periodLabels[status.period]}
             </span>
             <span
+              aria-label={`${periodLabels[status.period]} ${
+                status.done ? 'registrado' : 'pendente'
+              }`}
               className={
                 status.done
-                  ? 'inline-flex min-h-10 w-24 items-center justify-center rounded-md border border-accent bg-accent px-2 text-xs font-semibold text-white'
-                  : 'inline-flex min-h-10 w-24 items-center justify-center rounded-md border border-primary bg-transparent px-2 text-xs font-semibold text-primary'
+                  ? 'inline-flex size-7 items-center justify-center rounded-md border border-accent bg-accent text-sm font-semibold text-white'
+                  : 'inline-flex size-7 items-center justify-center rounded-md border border-primary bg-transparent'
               }
             >
-              {status.done ? 'Registrado' : 'Pendente'}
+              {status.done ? '✓' : null}
             </span>
           </div>
         ))}

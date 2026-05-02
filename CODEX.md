@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Paginacao do historico detalhado concluida**.
+Etapa atual: **Status do dia com check compacto concluido**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -43,7 +43,7 @@ Etapa 4 concluiu a base visual:
 Etapa 5 concluiu a tela inicial:
 
 - Home real com nome Brupress, saudacao pessoal, data do Brasil e status manha/tarde/noite.
-- Bloco de status do dia com linhas alinhadas e indicadores no formato dos botoes do app.
+- Bloco de status do dia com linhas compactas e indicadores em formato de checkbox visual.
 - Estado vazio para ausencia de registros.
 - Ultimo registro quando houver dados.
 - Resumo simples dos ultimos 7 dias.
@@ -118,7 +118,7 @@ Correcao de fluxo pos-salvamento concluiu:
 - A home recebe registros por props e nao acessa Supabase diretamente. O `App` centraliza o carregamento remoto e injeta os dados nos componentes.
 - O `App` renderiza a home em estado vazio, sem dados ficticios de pressao.
 - O topo da home inicia com "Ola Bruna!", com "Ola" em sans bold e "Bruna" em serifada italica vermelha para dar acento pessoal sem adicionar fonte externa.
-- O bloco de status do dia usa colunas fixas para periodo e estado, mantendo todos os indicadores com o mesmo tamanho e proximos do texto.
+- O bloco de status do dia usa colunas fixas para periodo e checkbox visual, mantendo todos os indicadores com o mesmo tamanho e proximos do texto.
 - O formulario recebe `onSave` por prop para manter testes sem rede.
 - A navegacao apos salvar deve voltar para a home, nao permanecer no formulario, para impedir envio duplicado por novo clique no botao de salvar.
 - A navegacao entre telas deve sempre resetar o scroll para o topo, evitando que historico, home ou formulario reabram na posicao anterior.
@@ -310,6 +310,7 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-02: Limitado historico detalhado a 10 medicoes por vez com "Ver mais"; historico resumido continua exibindo todas as medicoes.
 - 2026-05-01: Removido o titulo "Hoje" do topo da home e substituido por saudacao pessoal com destaque tipografico em "Bruna".
 - 2026-05-02: Redesenhado o bloco de status do dia com indicadores retangulares, compactos e alinhados ao estilo dos botoes.
+- 2026-05-02: Substituidos indicadores textuais do status do dia por checkboxes visuais compactos e automaticos.
 - 2026-05-02: Removida largura calculada do `AppShell`; adotada largura fluida para se adaptar melhor a diferentes smartphones reais.
 
 ## Pendencias

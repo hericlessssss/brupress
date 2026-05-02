@@ -36,8 +36,9 @@ describe('HomePage', () => {
     ).toBeInTheDocument();
     expect(screen.getAllByText('118/76')).toHaveLength(3);
     expect(screen.getByText('Tarde')).toBeInTheDocument();
-    expect(screen.getByText('Registrado')).toBeInTheDocument();
-    expect(screen.getAllByText('Pendente')).toHaveLength(2);
+    expect(screen.getByLabelText('Manha registrado')).toBeInTheDocument();
+    expect(screen.getByLabelText('Tarde pendente')).toBeInTheDocument();
+    expect(screen.getByLabelText('Noite pendente')).toBeInTheDocument();
   });
 
   it('renders empty state when there are no records', () => {
