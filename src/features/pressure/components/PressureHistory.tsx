@@ -14,6 +14,7 @@ interface PressureHistoryProps {
 }
 
 type HistoryView = 'detailed' | 'summary';
+const DETAILED_PAGE_SIZE = 10;
 
 const periodLabels = {
   morning: 'Manha',
@@ -35,12 +36,16 @@ function formatSymptoms(record: BloodPressureRecordWithClassification) {
 
 export function PressureHistory({ onBack, records }: PressureHistoryProps) {
   const [view, setView] = useState<HistoryView>('detailed');
-  const groups = groupHistoryByDay(records);
+  const [visibleDetailedCount, setVisibleDetailedCount] =
+    useState(DETAILED_PAGE_SIZE);
   const sortedRecords = [...records].sort(
     (first, second) =>
       new Date(second.measured_at).getTime() -
       new Date(first.measured_at).getTime(),
   );
+  const visibleDetailedRecords = sortedRecords.slice(0, visibleDetailedCount);
+  const groups = groupHistoryByDay(visibleDetailedRecords);
+  const hasMoreDetailedRecords = visibleDetailedCount < sortedRecords.length;
 
   return (
     <AppShell>
@@ -144,6 +149,19 @@ export function PressureHistory({ onBack, records }: PressureHistoryProps) {
                 </div>
               </section>
             ))}
+            {hasMoreDetailedRecords ? (
+              <button
+                className="justify-self-start border-b border-line pb-1 text-sm font-semibold text-secondary transition-colors hover:border-accent hover:text-accent"
+                onClick={() =>
+                  setVisibleDetailedCount(
+                    (currentCount) => currentCount + DETAILED_PAGE_SIZE,
+                  )
+                }
+                type="button"
+              >
+                Ver mais
+              </button>
+            ) : null}
           </div>
         ) : (
           <section aria-labelledby="summary-history-title">

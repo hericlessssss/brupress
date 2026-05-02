@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Reset de scroll na navegacao concluido**.
+Etapa atual: **Paginacao do historico detalhado concluida**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -66,6 +66,7 @@ Etapa 7 concluiu o historico:
 - Exibicao de horario, valor, batimentos, sintomas e classificacao visual.
 - Navegacao simples entre home e historico.
 - Abas para alternar entre historico detalhado e historico resumido.
+- Historico detalhado exibe no maximo 10 medicoes inicialmente, com acao discreta "Ver mais" para carregar mais 10.
 - Historico resumido em formato compacto, uma medicao por linha, com data, hora, valor destacado e periodo.
 
 Etapa 8 concluiu o polimento inicial:
@@ -126,6 +127,7 @@ Correcao de fluxo pos-salvamento concluiu:
 - O historico tambem e componente puro por props; ainda nao busca Supabase diretamente.
 - O historico possui duas visualizacoes na mesma tela: detalhada para contexto clinico do registro e resumida para leitura rapida em consulta.
 - A visualizacao resumida prioriza a medicao no centro da linha e mantem data, hora e periodo como colunas fixas.
+- A visualizacao detalhada limita a quantidade inicial de medicoes para preservar leveza e leitura; a visualizacao resumida permanece completa para consulta medica.
 - As abas do historico usam o mesmo componente `Button` da tela inicial para manter consistencia visual.
 - O `App` so importa Supabase dinamicamente quando as variaveis `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` ou `VITE_SUPABASE_ANON_KEY` existem.
 - Em `MODE=test`, o `App` nao inicia chamadas Supabase automaticamente, evitando rede e pendencias assincronas nos testes de componente.
@@ -305,6 +307,7 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Corrigido fluxo pos-salvamento para redirecionar para a home com feedback, evitando registro duplicado por segundo clique no formulario.
 - 2026-05-01: Adicionada aba de historico resumido em formato de lista tabular para facilitar avaliacao medica.
 - 2026-05-01: Refinado historico resumido com coluna propria de hora, linhas mais compactas e botoes iguais aos da home.
+- 2026-05-02: Limitado historico detalhado a 10 medicoes por vez com "Ver mais"; historico resumido continua exibindo todas as medicoes.
 - 2026-05-01: Removido o titulo "Hoje" do topo da home e substituido por saudacao pessoal com destaque tipografico em "Bruna".
 - 2026-05-02: Redesenhado o bloco de status do dia com indicadores retangulares, compactos e alinhados ao estilo dos botoes.
 - 2026-05-02: Removida largura calculada do `AppShell`; adotada largura fluida para se adaptar melhor a diferentes smartphones reais.

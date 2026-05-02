@@ -26,6 +26,16 @@ const eveningRecord: BloodPressureRecordWithClassification = {
   diastolic: 80,
 };
 
+function createRecord(index: number): BloodPressureRecordWithClassification {
+  return {
+    ...record,
+    id: `record-${index}`,
+    measured_at: `2026-05-${String(index).padStart(2, '0')}T11:30:00.000Z`,
+    systolic: 110 + index,
+    diastolic: 70,
+  };
+}
+
 describe('PressureHistory', () => {
   it('renders empty state when there are no records', () => {
     render(<PressureHistory records={[]} />);
@@ -71,6 +81,39 @@ describe('PressureHistory', () => {
     expect(screen.getByText('Manha')).toBeInTheDocument();
     expect(screen.getByText('Noite')).toBeInTheDocument();
     expect(screen.getAllByText('01/05')).toHaveLength(2);
+  });
+
+  it('limits detailed history and reveals more records on demand', async () => {
+    const user = userEvent.setup();
+    const records = Array.from({ length: 12 }, (_, index) =>
+      createRecord(index + 1),
+    );
+
+    render(<PressureHistory records={records} />);
+
+    expect(screen.getByText('122/70')).toBeInTheDocument();
+    expect(screen.getByText('113/70')).toBeInTheDocument();
+    expect(screen.queryByText('112/70')).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Ver mais' }));
+
+    expect(screen.getByText('112/70')).toBeInTheDocument();
+    expect(screen.getByText('111/70')).toBeInTheDocument();
+  });
+
+  it('keeps all records visible in the summary tab', async () => {
+    const user = userEvent.setup();
+    const records = Array.from({ length: 12 }, (_, index) =>
+      createRecord(index + 1),
+    );
+
+    render(<PressureHistory records={records} />);
+
+    await user.click(screen.getByRole('tab', { name: 'Historico resumido' }));
+
+    expect(screen.getByText('122/70')).toBeInTheDocument();
+    expect(screen.getByText('111/70')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Ver mais' })).not.toBeInTheDocument();
   });
 
   it('calls back action', async () => {
