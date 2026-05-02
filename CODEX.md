@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Detalhe final da marca no topo concluido**.
+Etapa atual: **Header hero e restruturação do BrandHeader concluido**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -135,8 +135,7 @@ Correcao de fluxo pos-salvamento concluiu:
 - Em `MODE=test`, o `App` nao inicia chamadas Supabase automaticamente, evitando rede e pendencias assincronas nos testes de componente.
 - Leitura remota tem timeout de 8 segundos e salvamento tem timeout de 10 segundos, evitando estado de carregamento indefinido.
 - O `AppShell` usa `w-full min-w-0 max-w-[430px]`, centralizado, com padding externo responsivo; o objetivo e preencher melhor smartphones estreitos sem passar do limite visual em telas maiores.
-- O topo das telas principais usa `BrandHeader` reutilizavel com o nome Brupress maior, logo a esquerda, icone decorativo vermelho a direita e divisoria horizontal sutil quase completa.
-- A home trata o header como uma secao hero vertical, com saudacao, texto auxiliar e data dentro do mesmo bloco de topo.
+- O topo das telas principais usa `BrandHeader` reutilizavel. Quando chamado sem props, exibe apenas logo, icone e divisoria para historico e registro. Quando recebe `greeting`, `name`, `subtitle` e `date`, transforma-se em hero section completa na home, com saudacao pessoal em italico (tanto "Ola" quanto o nome), texto auxiliar e data alinhados verticalmente no mesmo bloco.
 
 ## Estrutura do Projeto
 
@@ -319,6 +318,8 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-02: Refinada tipografia dos titulos com fonte display, peso bold e tom de heading mais suave que preto absoluto.
 - 2026-05-02: Removida largura calculada do `AppShell`; adotada largura fluida para se adaptar melhor a diferentes smartphones reais.
 - 2026-05-02: Reestruturado header da home como hero minimalista com logo, icone, divisoria e saudacao no mesmo bloco vertical.
+- 2026-05-02: Refatorado `BrandHeader` para aceitar props opcionais, permitindo dois modos: simples (logo e icone) nas paginas de historico e registrar; completo (com saudacao) na home.
+- 2026-05-02: Removido hardcoded "!" do nome na saudacao; "Ola" agora em italico sem negrito, igual a "Bruna!".
 
 ## Pendencias
 
@@ -424,3 +425,14 @@ Detalhe final concluido em 2026-05-02. O header de marca esta padronizado nas te
 - UI da home validada em captura mobile headless de 390px usando Chrome local em `http://127.0.0.1:5175`.
 
 Header hero concluido em 2026-05-02. O topo da home agora cresce naturalmente com logo, icone, divisoria, saudacao, texto auxiliar e data no mesmo bloco visual.
+
+## Validacao da Restruturação do BrandHeader
+
+- `npm run test`: passou com 17 arquivos e 59 testes.
+- `npm run typecheck`: passou.
+- `npm run build`: passou.
+- UI da home validada com saudacao em italico (sem negrito no "Ola") em captura mobile headless de 390px.
+- UI de historico validada com BrandHeader sem props (apenas logo, icone e divisoria) em captura mobile headless de 390px.
+- UI de registro validada com BrandHeader sem props em captura mobile headless de 390px.
+
+Restruturação concluida em 2026-05-02. O `BrandHeader` agora e modular: funciona como header simples nas paginas secundarias (historico e registro) e como hero section completa na home, removendo duplicacao de componentes e deixando ambas as visualizacoes coerentes.

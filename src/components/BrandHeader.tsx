@@ -1,6 +1,20 @@
-export function BrandHeader() {
+interface BrandHeaderProps {
+  greeting?: string;
+  name?: string;
+  subtitle?: string;
+  date?: string;
+}
+
+export function BrandHeader({
+  greeting,
+  name,
+  subtitle,
+  date,
+}: BrandHeaderProps) {
+  const hasGreeting = greeting && name && subtitle && date;
+
   return (
-    <div className="grid w-80 max-w-full gap-3 sm:w-full">
+    <div className={`flex w-full flex-col ${hasGreeting ? 'gap-6' : 'gap-3'}`}>
       <div className="grid grid-cols-[1fr_auto] items-center gap-4">
         <p className="font-display text-lg font-bold uppercase tracking-[0.22em] text-accent">
           Brupress
@@ -25,6 +39,28 @@ export function BrandHeader() {
         </svg>
       </div>
       <div className="h-px w-full bg-[rgba(170,166,156,0.45)]" />
+      {hasGreeting && (
+        <div className="flex flex-col gap-2">
+          <h1 className="font-display text-4xl font-bold leading-none tracking-normal text-heading">
+            <span
+              className="font-normal italic text-heading"
+              style={{ fontFamily: 'Georgia, Cambria, Times New Roman, serif' }}
+            >
+              {greeting}
+            </span>{' '}
+            <span
+              className="font-normal italic text-accent"
+              style={{ fontFamily: 'Georgia, Cambria, Times New Roman, serif' }}
+            >
+              {name}!
+            </span>
+          </h1>
+          <p className="text-base leading-7 text-secondary">{subtitle}</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.12em] text-secondary">
+            {date}
+          </p>
+        </div>
+      )}
     </div>
   );
 }

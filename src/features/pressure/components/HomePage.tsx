@@ -41,26 +41,12 @@ export function HomePage({
   return (
     <AppShell>
       <div className="flex min-h-[calc(100vh-5.5rem)] min-w-0 max-w-full flex-col gap-7">
-        <header className="grid gap-5 overflow-visible py-2">
-          <BrandHeader />
-          <div className="grid gap-2">
-          <h1 className="font-display text-4xl font-bold leading-none tracking-normal text-heading">
-            Olá{' '}
-            <span
-              className="font-normal italic text-accent"
-              style={{ fontFamily: 'Georgia, Cambria, Times New Roman, serif' }}
-            >
-              Bruna!
-            </span>
-          </h1>
-          <p className="text-base leading-7 text-secondary">
-            Vamos ver como esta a sua pressao hoje?
-          </p>
-          <p className="text-sm font-semibold uppercase tracking-[0.12em] text-secondary">
-            {todayLabel}
-          </p>
-          </div>
-        </header>
+        <BrandHeader
+          greeting="Olá"
+          name="Bruna"
+          subtitle="Vamos ver como esta a sua pressao hoje?"
+          date={todayLabel}
+        />
 
         <TodayStatus statuses={statuses} />
 
