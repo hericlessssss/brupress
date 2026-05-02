@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Etapa 7 - Historico concluido**.
+Etapa atual: **Etapa 8 - Polimento concluido**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -64,6 +64,14 @@ Etapa 7 concluiu o historico:
 - Exibicao de horario, valor, batimentos, sintomas e classificacao visual.
 - Navegacao simples entre home e historico.
 
+Etapa 8 concluiu o polimento inicial:
+
+- Carregamento remoto de registros no `App` via `pressureService.listRecords`.
+- Estados de sincronizacao e erro recuperavel na home.
+- Timeout de leitura e salvamento para evitar loading indefinido.
+- Ajuste responsivo do `AppShell` em viewport mobile estreito.
+- Teste de navegacao entre telas principais.
+
 ## Plano de Execucao
 
 1. Criar e manter este `CODEX.md` antes de implementar funcionalidades.
@@ -86,12 +94,16 @@ Etapa 7 concluiu o historico:
 - Os componentes base sao controlados por props simples e nao acessam Supabase diretamente.
 - A UI base prioriza composicao mobile de uma coluna; grades em duas colunas ficam reservadas para telas maiores.
 - `SymptomChips` usa `normalizeSymptoms` para manter a regra de "Nenhum sintoma" consistente tambem na interacao visual.
-- A home recebe registros por props e ainda nao busca Supabase diretamente. Isso evita acoplamento prematuro enquanto a migration remota nao foi aplicada.
+- A home recebe registros por props e nao acessa Supabase diretamente. O `App` centraliza o carregamento remoto e injeta os dados nos componentes.
 - O `App` renderiza a home em estado vazio, sem dados ficticios de pressao.
 - O formulario recebe `onSave` por prop para manter testes sem rede.
 - O `App` carrega o client Supabase apenas no momento do salvamento, evitando erro de ambiente nos testes.
 - Existem deep-links simples `?view=register` e `?view=history` para abrir telas sem roteador, usados tambem na validacao visual.
 - O historico tambem e componente puro por props; ainda nao busca Supabase diretamente.
+- O `App` so importa Supabase dinamicamente quando as variaveis `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` ou `VITE_SUPABASE_ANON_KEY` existem.
+- Em `MODE=test`, o `App` nao inicia chamadas Supabase automaticamente, evitando rede e pendencias assincronas nos testes de componente.
+- Leitura remota tem timeout de 8 segundos e salvamento tem timeout de 10 segundos, evitando estado de carregamento indefinido.
+- Em mobile, o `AppShell` fica alinhado a esquerda e centraliza apenas a partir de `sm`, porque a validacao em Chrome headless mostrou crop lateral em viewport estreito quando o shell era centralizado.
 
 ## Estrutura do Projeto
 
@@ -253,19 +265,23 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-01: Ajustado `AppShell` para largura mobile mais conservadora e padding direito maior, evitando corte em capturas de 390px.
 - 2026-05-01: Criado historico como componente puro com agrupamento por dia em utilitario separado.
 - 2026-05-01: Mantida navegacao simples por estado local em vez de introduzir roteador.
+- 2026-05-01: Conectado carregamento remoto de registros no `App`, mantendo Supabase fora dos componentes.
+- 2026-05-01: Adicionados estados de sincronizacao e erro recuperavel na home.
+- 2026-05-01: Adicionados timeouts de leitura e salvamento para evitar loading indefinido quando a tabela remota ainda nao estiver pronta.
+- 2026-05-01: Ajustado `AppShell` para evitar crop lateral em captura mobile de 390px.
+- 2026-05-01: Desabilitadas chamadas Supabase automaticas em `MODE=test` para manter testes deterministas e sem rede.
 
 ## Pendencias
 
 - Aplicar a migration no projeto Supabase quando houver decisao operacional de executar o SQL remoto.
-- Conectar a home ao `pressureService` quando a leitura remota for ativada.
 - Testar salvamento real no Supabase depois que a migration remota for aplicada.
-- Carregar registros reais no `App` usando `pressureService.listRecords`.
+- Validar leitura real de registros no Supabase depois que a migration remota for aplicada.
 
 ## Proximos Passos
 
-- Iniciar Etapa 8 com polimento, loading/error states e revisao final.
 - Aplicar ou validar a migration remota antes do uso real.
-- Conectar carregamento remoto de registros no `App`.
+- Fazer um teste manual de ponta a ponta com a tabela remota criada.
+- Revisar se o deployment escolhido deve usar `VITE_SUPABASE_PUBLISHABLE_KEY` ou manter `VITE_SUPABASE_ANON_KEY` como fallback.
 
 ## Problemas Encontrados e Solucoes Aplicadas
 
@@ -332,3 +348,12 @@ Etapa 6 concluida em 2026-05-01. O formulario esta pronto e conectado ao `pressu
 - UI de historico validada em captura mobile headless de 390px usando Chrome local em `http://127.0.0.1:5174/?view=history`.
 
 Etapa 7 concluida em 2026-05-01. A tela de historico esta pronta para registros em memoria; falta conectar carregamento remoto e polir estados finais na Etapa 8.
+
+## Validacao da Etapa 8
+
+- `npm run test`: passou com 16 arquivos e 51 testes.
+- `npm run typecheck`: passou.
+- `npm run build`: passou.
+- UI da home com estado de erro remoto validada em captura mobile headless de 390px usando Chrome local em `http://127.0.0.1:5175`.
+
+Etapa 8 concluida em 2026-05-01. O app esta pronto para uso inicial do ponto de vista do frontend; o uso real com Supabase depende da migration remota estar aplicada.

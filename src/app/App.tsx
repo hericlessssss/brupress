@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppShell } from '../components/AppShell';
 import { HomePage } from '../features/pressure/components/HomePage';
 import { PressureHistory } from '../features/pressure/components/PressureHistory';
@@ -14,6 +14,7 @@ import type {
 } from '../features/pressure/types/pressure';
 
 type AppView = 'home' | 'register' | 'history';
+type RecordsStatus = 'idle' | 'loading' | 'ready' | 'error';
 
 function getInitialView(): AppView {
   if (typeof window !== 'undefined') {
@@ -27,21 +28,128 @@ function getInitialView(): AppView {
   return 'home';
 }
 
+function hasSupabaseConfig() {
+  if (import.meta.env.MODE === 'test') {
+    return false;
+  }
+
+  return Boolean(
+    import.meta.env.VITE_SUPABASE_URL &&
+      (import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+        import.meta.env.VITE_SUPABASE_ANON_KEY),
+  );
+}
+
+async function getPressureService() {
+  const { supabase } = await import('../lib/supabase');
+
+  return createPressureService(
+    supabase as unknown as PressureSupabaseClient<BloodPressureRecord>,
+  );
+}
+
+async function withTimeout<T>(
+  promise: Promise<T>,
+  timeoutMs: number,
+  message: string,
+): Promise<T> {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+  const timeout = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(() => reject(new Error(message)), timeoutMs);
+  });
+
+  try {
+    return await Promise.race([promise, timeout]);
+  } finally {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+  }
+}
+
 export function App() {
   const [records, setRecords] = useState<
     BloodPressureRecordWithClassification[]
   >([]);
   const [view, setView] = useState<AppView>(getInitialView);
+  const [recordsStatus, setRecordsStatus] = useState<RecordsStatus>(
+    hasSupabaseConfig() ? 'loading' : 'ready',
+  );
+  const [recordsError, setRecordsError] = useState<string | null>(null);
+  const isMountedRef = useRef(false);
+
+  const loadRecords = useCallback(async () => {
+    if (!hasSupabaseConfig()) {
+      if (!isMountedRef.current) {
+        return;
+      }
+
+      setRecordsStatus('ready');
+      setRecordsError(null);
+      return;
+    }
+
+    if (!isMountedRef.current) {
+      return;
+    }
+
+    setRecordsStatus('loading');
+    setRecordsError(null);
+
+    try {
+      const pressureService = await getPressureService();
+      const loadedRecords = await withTimeout(
+        pressureService.listRecords(),
+        8000,
+        'Supabase loading timed out.',
+      );
+
+      if (!isMountedRef.current) {
+        return;
+      }
+
+      setRecords(loadedRecords);
+      setRecordsStatus('ready');
+    } catch {
+      if (!isMountedRef.current) {
+        return;
+      }
+
+      setRecordsStatus('error');
+      setRecordsError(
+        'Nao foi possivel carregar os registros. Confira se a tabela do Supabase ja foi criada.',
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    void loadRecords();
+
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, [loadRecords]);
 
   async function saveRecord(input: PressureInput) {
-    const { supabase } = await import('../lib/supabase');
-    const pressureService = createPressureService(
-      supabase as unknown as PressureSupabaseClient<BloodPressureRecord>,
-    );
-    const savedRecord = await pressureService.createRecord(input);
+    try {
+      const pressureService = await getPressureService();
+      const savedRecord = await withTimeout(
+        pressureService.createRecord(input),
+        10000,
+        'Supabase save timed out.',
+      );
 
-    setRecords((currentRecords) => [savedRecord, ...currentRecords]);
-    return savedRecord;
+      setRecords((currentRecords) => [savedRecord, ...currentRecords]);
+      setRecordsStatus('ready');
+      setRecordsError(null);
+      return savedRecord;
+    } catch {
+      throw new Error(
+        'Nao foi possivel salvar o registro agora. Confira a conexao e se o banco esta preparado.',
+      );
+    }
   }
 
   if (view === 'register') {
@@ -68,6 +176,9 @@ export function App() {
     <HomePage
       onOpenHistory={() => setView('history')}
       onRegister={() => setView('register')}
+      isLoading={recordsStatus === 'loading'}
+      loadError={recordsError}
+      onRetry={loadRecords}
       records={records}
     />
   );

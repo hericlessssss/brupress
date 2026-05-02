@@ -19,6 +19,8 @@ VITE_SUPABASE_ANON_KEY=
 
 Use `VITE_SUPABASE_PUBLISHABLE_KEY` quando disponivel. `VITE_SUPABASE_ANON_KEY` fica como compatibilidade com a nomenclatura anterior do Supabase.
 
+Antes do uso real, aplique no Supabase o SQL versionado em `supabase/migrations/20260501134000_create_blood_pressure_records.sql`.
+
 ## Scripts
 
 - `npm run dev`: inicia o Vite.

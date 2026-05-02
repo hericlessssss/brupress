@@ -12,14 +12,20 @@ import { TodayStatus } from './TodayStatus';
 
 interface HomePageProps {
   records: BloodPressureRecordWithClassification[];
+  isLoading?: boolean;
+  loadError?: string | null;
   today?: Date;
   onRegister?: () => void;
   onOpenHistory?: () => void;
+  onRetry?: () => void;
 }
 
 export function HomePage({
+  isLoading = false,
+  loadError = null,
   onOpenHistory,
   onRegister,
+  onRetry,
   records,
   today = new Date(),
 }: HomePageProps) {
@@ -43,6 +49,33 @@ export function HomePage({
         </header>
 
         <TodayStatus statuses={statuses} />
+
+        {isLoading ? (
+          <section className="rounded-md border border-line bg-surface p-4">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-secondary">
+              Sincronizando
+            </p>
+            <p className="mt-3 text-xl font-semibold">
+              Buscando os registros salvos...
+            </p>
+          </section>
+        ) : null}
+
+        {loadError ? (
+          <section className="rounded-md border border-accent bg-accent-soft p-4">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-accent">
+              Atencao
+            </p>
+            <p className="mt-3 text-base leading-7 text-primary">
+              {loadError}
+            </p>
+            <div className="mt-4">
+              <Button onClick={onRetry} variant="secondary">
+                Tentar de novo
+              </Button>
+            </div>
+          </section>
+        ) : null}
 
         {lastRecord ? (
           <PressureCard record={lastRecord} />
@@ -74,4 +107,3 @@ export function HomePage({
     </AppShell>
   );
 }
-
