@@ -14,10 +14,8 @@ export function BrandHeader({
   const hasGreeting = greeting && name && subtitle && date;
 
   return (
-    <div
-      className={`flex w-80 max-w-full flex-col sm:w-full ${hasGreeting ? 'gap-6' : 'gap-3'}`}
-    >
-      <div className="grid grid-cols-[1fr_auto] items-center gap-4">
+    <div className={`flex w-full flex-col ${hasGreeting ? 'gap-6' : 'gap-3'}`}>
+      <div className="grid w-80 max-w-full grid-cols-[1fr_auto] items-center gap-4">
         <p className="font-display text-lg font-bold uppercase tracking-[0.22em] text-accent">
           Brupress
         </p>
@@ -40,7 +38,7 @@ export function BrandHeader({
           <circle cx="4.75" cy="16.25" fill="currentColor" r="1.4" />
         </svg>
       </div>
-      <div className="ml-auto h-px w-80 max-w-full bg-[rgba(170,166,156,0.45)]" />
+      <div className="h-px w-full bg-[rgba(170,166,156,0.45)]" />
       {hasGreeting && (
         <div className="flex flex-col gap-2">
           <h1 className="font-display text-4xl font-bold leading-none tracking-normal text-heading">

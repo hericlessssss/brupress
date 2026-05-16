@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Resumo total e historico detalhado ajustados**.
+Etapa atual: **Alinhamento do header restaurado**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -136,7 +136,7 @@ Correcao de fluxo pos-salvamento concluiu:
 - Leitura remota tem timeout de 8 segundos e salvamento tem timeout de 10 segundos, evitando estado de carregamento indefinido.
 - O `AppShell` usa `w-full min-w-0`, centralizado, com limite inline `min(430px, calc(100vw - 1.5rem))`; o objetivo e preencher melhor smartphones estreitos sem passar do limite visual em telas maiores.
 - O topo das telas principais usa `BrandHeader` reutilizavel. Quando chamado sem props, exibe apenas logo, icone e divisoria para historico e registro. Quando recebe `greeting`, `name`, `subtitle` e `date`, transforma-se em hero section completa na home, com saudacao pessoal em italico (tanto "Ola" quanto o nome), texto auxiliar e data alinhados verticalmente no mesmo bloco.
-- A divisoria do `BrandHeader` fica alinhada a direita junto da area do icone, preservando o desenho validado visualmente.
+- A divisoria do `BrandHeader` ocupa a largura completa do bloco, alinhada ao logo; a linha superior limita logo e icone para manter o icone visivel no mobile.
 - O resumo da home exibe duas caixas lado a lado: `Semanal` para ultimos 7 dias e `Total` para todos os registros carregados no app.
 - O historico detalhado exibe batimentos, sintomas e observacao; sintomas nulos ou ausentes sao tratados como "Nenhum sintoma informado.".
 
@@ -326,6 +326,7 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-16: Dividido resumo da home em caixas `Semanal` e `Total`, com medias, maior valor e contagem de registros.
 - 2026-05-16: Historico detalhado passou a exibir observacao e a tratar sintomas de forma robusta quando ausentes.
 - 2026-05-16: Ajustado `BrandHeader` para manter icone visivel e divisoria alinhada a direita em viewport mobile.
+- 2026-05-16: Restaurado alinhamento da divisoria do header para iniciar junto ao logo, mantendo o icone visivel a direita.
 
 ## Pendencias
 
@@ -451,3 +452,12 @@ Restruturação concluida em 2026-05-02. O `BrandHeader` agora e modular: funcio
 - UI da home validada em captura mobile headless de 390px e 1200px de altura usando Chrome local em `http://127.0.0.1:5175`.
 
 Ajuste concluido em 2026-05-16. A home agora separa resumo semanal e total lado a lado, e o historico detalhado mostra observacoes e sintomas com fallback claro.
+
+## Validacao do Alinhamento do Header
+
+- `npm run test`: passou com 17 arquivos e 60 testes.
+- `npm run typecheck`: passou.
+- `npm run build`: passou.
+- UI da home validada em captura mobile headless de 390px usando Chrome local em `http://127.0.0.1:5175`.
+
+Alinhamento do header restaurado em 2026-05-16. A divisoria volta a comecar alinhada ao logo, e o icone permanece visivel no lado direito.
