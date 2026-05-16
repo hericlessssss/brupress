@@ -34,7 +34,9 @@ describe('HomePage', () => {
     expect(
       screen.getByRole('heading', { name: 'Status do dia' }),
     ).toBeInTheDocument();
-    expect(screen.getAllByText('118/76')).toHaveLength(3);
+    expect(screen.getAllByText('118/76')).toHaveLength(5);
+    expect(screen.getByText('Semanal')).toBeInTheDocument();
+    expect(screen.getByText('Total')).toBeInTheDocument();
     expect(screen.getByText('Tarde')).toBeInTheDocument();
     expect(screen.getByLabelText('Manha registrado')).toBeInTheDocument();
     expect(screen.getByLabelText('Tarde pendente')).toBeInTheDocument();

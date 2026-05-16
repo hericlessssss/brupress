@@ -6,6 +6,7 @@ import type { BloodPressureRecordWithClassification } from '../types/pressure';
 import { formatBrazilFullDate } from '../utils/brazilDate';
 import {
   getLastRecord,
+  getOverallSummary,
   getSevenDaySummary,
   getTodayPeriodStatus,
 } from '../utils/pressureStats';
@@ -35,7 +36,8 @@ export function HomePage({
 }: HomePageProps) {
   const statuses = getTodayPeriodStatus(records, today);
   const lastRecord = getLastRecord(records);
-  const summary = getSevenDaySummary(records, today);
+  const weeklySummary = getSevenDaySummary(records, today);
+  const overallSummary = getOverallSummary(records);
   const todayLabel = formatBrazilFullDate(today);
 
   return (
@@ -113,7 +115,10 @@ export function HomePage({
           </section>
         )}
 
-        <PressureSummary summary={summary} />
+        <PressureSummary
+          overallSummary={overallSummary}
+          weeklySummary={weeklySummary}
+        />
 
         <div className="mt-auto grid gap-3">
           <Button fullWidth onClick={onRegister}>

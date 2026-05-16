@@ -6,7 +6,7 @@ Brupress e um app web pessoal, mobile-first, para registrar a pressao arterial d
 
 ## Escopo Atual
 
-Etapa atual: **Header hero e restruturação do BrandHeader concluido**.
+Etapa atual: **Resumo total e historico detalhado ajustados**.
 
 O foco inicial e preparar a base tecnica do projeto:
 
@@ -46,7 +46,7 @@ Etapa 5 concluiu a tela inicial:
 - Bloco de status do dia com linhas compactas e indicadores em formato de checkbox visual.
 - Estado vazio para ausencia de registros.
 - Ultimo registro quando houver dados.
-- Resumo simples dos ultimos 7 dias.
+- Resumo com visao semanal e total do app.
 - Botoes principais para registrar pressao e ver historico.
 
 Etapa 6 concluiu a tela de registro:
@@ -134,8 +134,11 @@ Correcao de fluxo pos-salvamento concluiu:
 - O `App` so importa Supabase dinamicamente quando as variaveis `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` ou `VITE_SUPABASE_ANON_KEY` existem.
 - Em `MODE=test`, o `App` nao inicia chamadas Supabase automaticamente, evitando rede e pendencias assincronas nos testes de componente.
 - Leitura remota tem timeout de 8 segundos e salvamento tem timeout de 10 segundos, evitando estado de carregamento indefinido.
-- O `AppShell` usa `w-full min-w-0 max-w-[430px]`, centralizado, com padding externo responsivo; o objetivo e preencher melhor smartphones estreitos sem passar do limite visual em telas maiores.
+- O `AppShell` usa `w-full min-w-0`, centralizado, com limite inline `min(430px, calc(100vw - 1.5rem))`; o objetivo e preencher melhor smartphones estreitos sem passar do limite visual em telas maiores.
 - O topo das telas principais usa `BrandHeader` reutilizavel. Quando chamado sem props, exibe apenas logo, icone e divisoria para historico e registro. Quando recebe `greeting`, `name`, `subtitle` e `date`, transforma-se em hero section completa na home, com saudacao pessoal em italico (tanto "Ola" quanto o nome), texto auxiliar e data alinhados verticalmente no mesmo bloco.
+- A divisoria do `BrandHeader` fica alinhada a direita junto da area do icone, preservando o desenho validado visualmente.
+- O resumo da home exibe duas caixas lado a lado: `Semanal` para ultimos 7 dias e `Total` para todos os registros carregados no app.
+- O historico detalhado exibe batimentos, sintomas e observacao; sintomas nulos ou ausentes sao tratados como "Nenhum sintoma informado.".
 
 ## Estrutura do Projeto
 
@@ -320,6 +323,9 @@ Uma etapa so pode ser considerada concluida quando:
 - 2026-05-02: Reestruturado header da home como hero minimalista com logo, icone, divisoria e saudacao no mesmo bloco vertical.
 - 2026-05-02: Refatorado `BrandHeader` para aceitar props opcionais, permitindo dois modos: simples (logo e icone) nas paginas de historico e registrar; completo (com saudacao) na home.
 - 2026-05-02: Removido hardcoded "!" do nome na saudacao; "Ola" agora em italico sem negrito, igual a "Bruna!".
+- 2026-05-16: Dividido resumo da home em caixas `Semanal` e `Total`, com medias, maior valor e contagem de registros.
+- 2026-05-16: Historico detalhado passou a exibir observacao e a tratar sintomas de forma robusta quando ausentes.
+- 2026-05-16: Ajustado `BrandHeader` para manter icone visivel e divisoria alinhada a direita em viewport mobile.
 
 ## Pendencias
 
@@ -436,3 +442,12 @@ Header hero concluido em 2026-05-02. O topo da home agora cresce naturalmente co
 - UI de registro validada com BrandHeader sem props em captura mobile headless de 390px.
 
 Restruturação concluida em 2026-05-02. O `BrandHeader` agora e modular: funciona como header simples nas paginas secundarias (historico e registro) e como hero section completa na home, removendo duplicacao de componentes e deixando ambas as visualizacoes coerentes.
+
+## Validacao do Resumo Total e Historico Detalhado
+
+- `npm run test`: passou com 17 arquivos e 60 testes.
+- `npm run typecheck`: passou.
+- `npm run build`: passou.
+- UI da home validada em captura mobile headless de 390px e 1200px de altura usando Chrome local em `http://127.0.0.1:5175`.
+
+Ajuste concluido em 2026-05-16. A home agora separa resumo semanal e total lado a lado, e o historico detalhado mostra observacoes e sintomas com fallback claro.

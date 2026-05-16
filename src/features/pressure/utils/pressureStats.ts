@@ -20,6 +20,36 @@ export interface SevenDaySummary {
   recordCount: number;
 }
 
+function summarizeRecords(
+  records: BloodPressureRecordWithClassification[],
+): SevenDaySummary {
+  if (records.length === 0) {
+    return {
+      averageSystolic: null,
+      averageDiastolic: null,
+      highestSystolic: null,
+      highestDiastolic: null,
+      recordCount: 0,
+    };
+  }
+
+  const totals = records.reduce(
+    (accumulator, record) => ({
+      systolic: accumulator.systolic + record.systolic,
+      diastolic: accumulator.diastolic + record.diastolic,
+    }),
+    { systolic: 0, diastolic: 0 },
+  );
+
+  return {
+    averageSystolic: Math.round(totals.systolic / records.length),
+    averageDiastolic: Math.round(totals.diastolic / records.length),
+    highestSystolic: Math.max(...records.map((record) => record.systolic)),
+    highestDiastolic: Math.max(...records.map((record) => record.diastolic)),
+    recordCount: records.length,
+  };
+}
+
 export function getTodayPeriodStatus(
   records: BloodPressureRecordWithClassification[],
   date = new Date(),
@@ -63,33 +93,11 @@ export function getSevenDaySummary(
     recentDateKeys.has(getBrazilDateKey(new Date(record.measured_at))),
   );
 
-  if (recentRecords.length === 0) {
-    return {
-      averageSystolic: null,
-      averageDiastolic: null,
-      highestSystolic: null,
-      highestDiastolic: null,
-      recordCount: 0,
-    };
-  }
+  return summarizeRecords(recentRecords);
+}
 
-  const totals = recentRecords.reduce(
-    (accumulator, record) => ({
-      systolic: accumulator.systolic + record.systolic,
-      diastolic: accumulator.diastolic + record.diastolic,
-    }),
-    { systolic: 0, diastolic: 0 },
-  );
-
-  return {
-    averageSystolic: Math.round(totals.systolic / recentRecords.length),
-    averageDiastolic: Math.round(totals.diastolic / recentRecords.length),
-    highestSystolic: Math.max(
-      ...recentRecords.map((record) => record.systolic),
-    ),
-    highestDiastolic: Math.max(
-      ...recentRecords.map((record) => record.diastolic),
-    ),
-    recordCount: recentRecords.length,
-  };
+export function getOverallSummary(
+  records: BloodPressureRecordWithClassification[],
+): SevenDaySummary {
+  return summarizeRecords(records);
 }

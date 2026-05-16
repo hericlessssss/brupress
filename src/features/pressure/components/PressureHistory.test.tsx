@@ -12,7 +12,7 @@ const record: BloodPressureRecordWithClassification = {
   diastolic: 76,
   heart_rate: 82,
   symptoms: ['dizziness'],
-  notes: null,
+  notes: 'Medi depois de repousar.',
   created_at: '2026-05-01T11:31:00.000Z',
   classification: 'normal',
 };
@@ -58,6 +58,7 @@ describe('PressureHistory', () => {
     expect(screen.getByText('118/76')).toBeInTheDocument();
     expect(screen.getByText('82 bpm')).toBeInTheDocument();
     expect(screen.getByText('Tontura')).toBeInTheDocument();
+    expect(screen.getByText('Medi depois de repousar.')).toBeInTheDocument();
     expect(screen.getByText('Normal')).toBeInTheDocument();
 
     vi.useRealTimers();

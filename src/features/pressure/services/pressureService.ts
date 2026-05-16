@@ -47,6 +47,8 @@ function withClassification(
 ): BloodPressureRecordWithClassification {
   return {
     ...record,
+    notes: record.notes ?? null,
+    symptoms: Array.isArray(record.symptoms) ? record.symptoms : [],
     classification: classifyPressure({
       systolic: record.systolic,
       diastolic: record.diastolic,
@@ -152,4 +154,3 @@ export function createPressureService(
     },
   };
 }
-

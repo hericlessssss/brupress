@@ -28,11 +28,19 @@ function formatTime(value: string) {
 }
 
 function formatSymptoms(record: BloodPressureRecordWithClassification) {
-  if (record.symptoms.length === 0 || record.symptoms.includes('none')) {
+  if (
+    !Array.isArray(record.symptoms) ||
+    record.symptoms.length === 0 ||
+    record.symptoms.includes('none')
+  ) {
     return 'Nenhum sintoma informado.';
   }
 
   return record.symptoms.map((symptom) => symptomLabels[symptom]).join(', ');
+}
+
+function formatNotes(record: BloodPressureRecordWithClassification) {
+  return record.notes?.trim() || 'Nenhuma observacao informada.';
 }
 
 export function PressureHistory({ onBack, records }: PressureHistoryProps) {
@@ -140,6 +148,12 @@ export function PressureHistory({ onBack, records }: PressureHistoryProps) {
                           <dt className="text-secondary">Sintomas</dt>
                           <dd className="mt-1 font-semibold">
                             {formatSymptoms(record)}
+                          </dd>
+                        </div>
+                        <div>
+                          <dt className="text-secondary">Observacao</dt>
+                          <dd className="mt-1 font-semibold">
+                            {formatNotes(record)}
                           </dd>
                         </div>
                       </dl>

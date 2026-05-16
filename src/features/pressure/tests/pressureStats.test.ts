@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { BloodPressureRecordWithClassification } from '../types/pressure';
 import {
   getLastRecord,
+  getOverallSummary,
   getSevenDaySummary,
   getTodayPeriodStatus,
 } from '../utils/pressureStats';
@@ -81,6 +82,25 @@ describe('pressureStats', () => {
       averageDiastolic: 80,
       highestSystolic: 130,
       highestDiastolic: 84,
+      recordCount: 2,
+    });
+  });
+
+  it('summarizes all records for the overall summary', () => {
+    const summary = getOverallSummary([
+      record({ systolic: 118, diastolic: 76 }),
+      record({
+        systolic: 150,
+        diastolic: 92,
+        measured_at: '2026-04-20T12:00:00.000Z',
+      }),
+    ]);
+
+    expect(summary).toEqual({
+      averageSystolic: 134,
+      averageDiastolic: 84,
+      highestSystolic: 150,
+      highestDiastolic: 92,
       recordCount: 2,
     });
   });
