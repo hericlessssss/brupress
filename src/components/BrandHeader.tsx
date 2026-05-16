@@ -15,7 +15,7 @@ export function BrandHeader({
 
   return (
     <div className={`flex w-full flex-col ${hasGreeting ? 'gap-6' : 'gap-3'}`}>
-      <div className="grid w-80 max-w-full grid-cols-[1fr_auto] items-center gap-4">
+      <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4">
         <p className="font-display text-lg font-bold uppercase tracking-[0.22em] text-accent">
           Brupress
         </p>
